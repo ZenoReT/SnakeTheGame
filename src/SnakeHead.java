@@ -3,7 +3,7 @@ import java.util.Arrays;
 public class SnakeHead implements FieldObject {
 	private Point location;
 	private String direction;
-	private final String[] directions = new String[] {"Down", "Up", "Left", "Right"};
+	public final String[] directions = new String[] {"Down", "Up", "Left", "Right"};
 	public SnakePart previousPart = null;
 	
 	public SnakeHead(int x, int y) {
@@ -32,5 +32,4 @@ public class SnakeHead implements FieldObject {
 	public String getDirection() {
 		return direction;
 	}
-
 }

@@ -1,20 +1,5 @@
 
 public class Levels {
-	public void initilizeField(Field field) {
-		for (int i = 0; i < field.objects.size(); i++) {
-			FieldObject currentObject = field.objects.get(i);
-			int x = currentObject.getLocation().x;
-			int y = currentObject.getLocation().y;
-			field.field[x][y] = currentObject;
-		}
-		for (int x = 0; x < field.getWidth(); x++) {
-			for (int y = 0; y < field.getHeigth(); y++) {
-				if (field.field[x][y] == null) {
-					field.field[x][y] = new EmptyCell(x, y);
-				}
-			}
-		}
-	}
 	
 	public class Level1{
 		public void initilizeLevel() {
@@ -36,7 +21,7 @@ public class Levels {
 					}
 				}
 			}
-			initilizeField(field);
+			Game.initilizeField(field);
 		}
 	}
 }
