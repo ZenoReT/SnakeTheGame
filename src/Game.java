@@ -2,18 +2,15 @@
 import java.util.Random;
 
 public class Game {
-	private boolean gameOver = false;
+	public boolean gameOver = false;
 	
-	public void tick(Field field) {
-		while (!gameOver){
-			SnakeHead snakeHead = findSnakeHead(field);
-			moveSnake(snakeHead);
-			if (isInterrupt(field, snakeHead)){
-				treatInterruption(field, snakeHead);
-			}
-			initilizeField(field);
+	public void tick(Field field){
+		SnakeHead snakeHead = findSnakeHead(field);
+		moveSnake(snakeHead);
+		if (isInterrupt(field, snakeHead)){
+			treatInterruption(field, snakeHead);
 		}
-		System.out.println("Game over!");
+		field.initilizeField();
 	}
 	
 	private SnakeHead findSnakeHead(Field field) {
@@ -35,13 +32,13 @@ public class Game {
 			Point nextCoordinate = new Point(snakeHead.getLocation().x,
 											 snakeHead.getLocation().y);
 			while (true) {
+				Point temp = new Point(currentPart.getLocation().x, currentPart.getLocation().y);
 				currentPart.setLocation(nextCoordinate.x, nextCoordinate.y);
 				currentPart = currentPart.previousPart;
 				if (currentPart == null) {
 					break;
 				}
-				nextCoordinate = new Point(currentPart.getLocation().x,
-										   currentPart.getLocation().y);
+				nextCoordinate = temp;
 			}
 		}
 		if (snakeHead.getDirection() == "Up") {
@@ -71,7 +68,7 @@ public class Game {
 	private void treatInterruption(Field field, SnakeHead snakeHead) {
 		Point headLocation = new Point(snakeHead.getLocation().x,
 				                   snakeHead.getLocation().y);
-		Object cellClass = field.field[headLocation.x][headLocation.y];
+		Object cellClass = field.field[headLocation.x][headLocation.y].getClass();
 		if (cellClass == SnakePart.class || cellClass == Wall.class)
 		{
 			gameOver = true;
@@ -102,25 +99,9 @@ public class Game {
 		while (!haveApple){
 			int x = rand.nextInt(field.getWidth());
 			int y = rand.nextInt(field.getHeigth());
-			if (field.field[x][y].getClass() == EmptyCell.class &&
-				(x != snakeHead.getLocation().x || y != snakeHead.getLocation().y)){
+			if (field.field[x][y].getClass() == EmptyCell.class){
 				haveApple = true;
 				field.objects.add(new Apple(x, y));
-			}
-		}
-	}
-	
-	public static void initilizeField(Field field) {
-		for (int i = 0; i < field.objects.size(); i++){
-			int x = field.objects.get(i).getLocation().x;
-			int y = field.objects.get(i).getLocation().y;
-			field.field[x][y] = field.objects.get(i);
-		}
-		for (int x = 0; x < field.getWidth(); x++) {
-			for (int y = 0; y < field.getHeigth(); y++) {
-				if (field.field[x][y] == null) {
-					field.field[x][y] = new EmptyCell(x, y);
-				}
 			}
 		}
 	}

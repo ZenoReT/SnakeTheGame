@@ -10,10 +10,10 @@ public class UserInterface{
 			 snakeHead.setDirection("Down");
 		}
 		else if (e.getKeyCode() == KeyEvent.VK_LEFT) {
-			 snakeHead.setDirection("Left");			
+			 snakeHead.setDirection("Left");
 		}
 		else if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
-			 snakeHead.setDirection("Right");			
+			 snakeHead.setDirection("Right");
 		}
 	}
 }

@@ -20,4 +20,20 @@ public class Field {
 	public int getWidth() {
 		return width;
 	}
+	
+	public void initilizeField() {
+		field = new FieldObject[getWidth()][getHeigth()];
+		for (int i = 0; i < objects.size(); i++){
+			int x = objects.get(i).getLocation().x;
+			int y = objects.get(i).getLocation().y;
+			field[x][y] = objects.get(i);
+		}
+		for (int x = 0; x < getWidth(); x++) {
+			for (int y = 0; y < getHeigth(); y++) {
+				if (field[x][y] == null) {
+					field[x][y] = new EmptyCell(x, y);
+				}
+			}
+		}
+	}
 }
