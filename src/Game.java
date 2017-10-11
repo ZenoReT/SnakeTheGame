@@ -1,8 +1,25 @@
 
+import java.util.ArrayList;
 import java.util.Random;
 
 public class Game {
 	public boolean gameOver = false;
+	
+	public void changeDirection(String command, SnakeHead head) {
+		String direction = head.getDirection();
+		if (command.equals("d") & !direction.equals("Left") ) {
+			head.setDirection("Right");
+		}
+		else if (command.equals("w")& !direction.equals("Down") ) {
+			head.setDirection("Up");
+		}
+		else if (command.equals("a")& !direction.equals("Right") ) {
+			head.setDirection("Left");
+		}
+		else if (command.equals("s")& !direction.equals("Up") ) {
+			head.setDirection("Down");
+		}
+	}
 	
 	public void tick(Field field){
 		SnakeHead snakeHead = findSnakeHead(field);
@@ -13,7 +30,7 @@ public class Game {
 		field.initilizeField();
 	}
 	
-	private SnakeHead findSnakeHead(Field field) {
+	public SnakeHead findSnakeHead(Field field) {
 		Object classOfHead = SnakeHead.class;
 		SnakeHead snakeHead = null;
 		for (int i = 0; i < field.objects.size(); i++) {
@@ -69,7 +86,7 @@ public class Game {
 		Point headLocation = new Point(snakeHead.getLocation().x,
 				                   snakeHead.getLocation().y);
 		Object cellClass = field.field[headLocation.x][headLocation.y].getClass();
-		if (cellClass == SnakePart.class || cellClass == Wall.class)
+		if (cellClass == SnakePart.class || cellClass == Wall.class || cellClass == SnakeHead.class)
 		{
 			gameOver = true;
 		}
@@ -93,16 +110,24 @@ public class Game {
 		}
 	}
 	
-	private void appleGenerator(Field field, SnakeHead snakeHead){
-		Random rand = new Random();
-		boolean haveApple = false;
-		while (!haveApple){
-			int x = rand.nextInt(field.getWidth());
-			int y = rand.nextInt(field.getHeigth());
-			if (field.field[x][y].getClass() == EmptyCell.class){
-				haveApple = true;
-				field.objects.add(new Apple(x, y));
+	private ArrayList<FieldObject> getEmptyCells(Field field){
+		Object emptyCellClass = EmptyCell.class;
+		ArrayList<FieldObject> emptyCells = new ArrayList<FieldObject>();
+		for (int x = 0; x < field.getWidth(); x++) {
+			for (int y = 0; y < field.getHeigth(); y++) {
+				if (field.field[x][y].getClass() == emptyCellClass) {
+					emptyCells.add(field.field[x][y]);
+				}
 			}
 		}
+		return emptyCells;
+	}
+	
+	private void appleGenerator(Field field, SnakeHead snakeHead){
+		Random rand = new Random();
+		ArrayList<FieldObject> emptyCells = getEmptyCells(field);
+		int id = rand.nextInt(emptyCells.size());
+		field.objects.add(new Apple(emptyCells.get(id).getLocation().x,
+									emptyCells.get(id).getLocation().y));
 	}
 }
