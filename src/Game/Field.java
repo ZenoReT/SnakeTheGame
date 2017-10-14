@@ -1,8 +1,12 @@
+package Game;
 import java.util.ArrayList;
 
+import FieldObjects.EmptyCell;
+import FieldObjects.FieldObject;
+
 public class Field {
-	public ArrayList<FieldObject> objects;
-	public FieldObject[][] field;
+	private ArrayList<FieldObject> objects;
+	private FieldObject[][] field;
 	private int height;
 	private int width;
 	
@@ -19,6 +23,14 @@ public class Field {
 	
 	public int getWidth() {
 		return width;
+	}
+	
+	public FieldObject[][] getField(){
+		return field;
+	}
+	
+	public ArrayList<FieldObject> getObjects(){
+		return objects;
 	}
 	
 	public void initilizeField() {

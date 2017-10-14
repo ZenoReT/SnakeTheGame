@@ -1,3 +1,5 @@
+package FieldObjects;
+import Utils.Point;
 
 public class EmptyCell implements FieldObject {
 	private Point location;
@@ -14,7 +16,11 @@ public class EmptyCell implements FieldObject {
 		return location;
 	}
 
-	public boolean isWalkable() {
+	public boolean isCollisionCapable() {
+		return false;
+	}
+	
+	public boolean deadInConflict() {
 		return false;
 	}
 

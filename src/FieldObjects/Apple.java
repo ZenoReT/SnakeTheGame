@@ -1,8 +1,10 @@
+package FieldObjects;
+import Utils.Point;
 
-public class Wall implements FieldObject {
+public class Apple implements FieldObject {
 	private Point location;
 	
-	public Wall(int x, int y) {
+	public Apple(int x, int y) {
 		location = new Point(x, y);
 	}
 
@@ -14,7 +16,11 @@ public class Wall implements FieldObject {
 		return location;
 	}
 
-	public boolean isWalkable() {
+	public boolean isCollisionCapable() {
+		return true;
+	}
+	
+	public boolean deadInConflict() {
 		return false;
 	}
 
