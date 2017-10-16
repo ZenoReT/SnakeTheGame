@@ -1,12 +1,12 @@
-package GUI;
-import FieldObjects.Apple;
-import FieldObjects.EmptyCell;
-import FieldObjects.SnakeHead;
-import FieldObjects.SnakePart;
-import FieldObjects.Wall;
-import Game.Field;
+package gui;
+import fieldObjects.Apple;
+import fieldObjects.EmptyCell;
+import fieldObjects.SnakeHead;
+import fieldObjects.SnakePart;
+import fieldObjects.Wall;
+import game.Field;
 
-public class SimpleGui {
+public class CUI {
 	public static void print(Field field) {
 		for (int y = 0; y < field.getHeigth(); y++) {
 			for (int x = 0; x < field.getWidth(); x++) {

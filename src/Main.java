@@ -1,12 +1,12 @@
 import java.util.Scanner;
 import java.util.concurrent.TimeUnit;
 
-import FieldObjects.SnakeHead;
-import GUI.SimpleGui;
-import Game.Field;
-import Game.Game;
-import Game.Levels;
-import Utils.Point;
+import fieldObjects.SnakeHead;
+import game.Field;
+import game.Game;
+import game.Levels;
+import gui.CUI;
+import utils.Point;
 
 public class Main {
 	
@@ -37,7 +37,7 @@ public class Main {
 		SnakeHead snakeHead = game.findSnakeHead();
 		Scanner in = new Scanner(System.in);
 		while (!game.gameOver) {
-			SimpleGui.print(field);
+			CUI.print(field);
 			String command = in.next();	
 			changeDirection(command, snakeHead);
 			game.tick();

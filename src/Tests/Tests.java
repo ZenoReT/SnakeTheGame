@@ -1,15 +1,15 @@
-package Tests;
+package tests;
 import static org.junit.Assert.*;
 
 import org.junit.Test;
 
-import FieldObjects.Apple;
-import FieldObjects.SnakeHead;
-import FieldObjects.SnakePart;
-import FieldObjects.Wall;
-import Game.Field;
-import Game.Game;
-import Utils.Point;
+import fieldObjects.Apple;
+import fieldObjects.SnakeHead;
+import fieldObjects.SnakePart;
+import fieldObjects.Wall;
+import game.Field;
+import game.Game;
+import utils.Point;
 
 public class Tests {
 

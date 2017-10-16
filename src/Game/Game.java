@@ -1,13 +1,13 @@
-package Game;
+package game;
 import java.util.ArrayList;
 import java.util.Random;
 
-import FieldObjects.Apple;
-import FieldObjects.EmptyCell;
-import FieldObjects.FieldObject;
-import FieldObjects.SnakeHead;
-import FieldObjects.SnakePart;
-import Utils.Point;
+import fieldObjects.Apple;
+import fieldObjects.EmptyCell;
+import fieldObjects.FieldObject;
+import fieldObjects.SnakeHead;
+import fieldObjects.SnakePart;
+import utils.Point;
 
 public class Game {
 	public boolean gameOver = false;

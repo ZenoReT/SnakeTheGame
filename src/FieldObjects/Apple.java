@@ -1,5 +1,5 @@
-package FieldObjects;
-import Utils.Point;
+package fieldObjects;
+import utils.Point;
 
 public class Apple implements FieldObject {
 	private Point location;

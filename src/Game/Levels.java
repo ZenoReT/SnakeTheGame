@@ -1,9 +1,9 @@
-package Game;
-import FieldObjects.Apple;
-import FieldObjects.SnakeHead;
-import FieldObjects.SnakePart;
-import FieldObjects.Wall;
-import Utils.Point;
+package game;
+import fieldObjects.Apple;
+import fieldObjects.SnakeHead;
+import fieldObjects.SnakePart;
+import fieldObjects.Wall;
+import utils.Point;
 
 public class Levels {
 	

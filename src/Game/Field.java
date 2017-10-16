@@ -1,8 +1,8 @@
-package Game;
+package game;
 import java.util.ArrayList;
 
-import FieldObjects.EmptyCell;
-import FieldObjects.FieldObject;
+import fieldObjects.EmptyCell;
+import fieldObjects.FieldObject;
 
 public class Field {
 	private ArrayList<FieldObject> objects;

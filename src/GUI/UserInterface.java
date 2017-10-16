@@ -1,9 +1,9 @@
-package GUI;
+package gui;
 
 import java.awt.event.KeyEvent;
 
-import FieldObjects.SnakeHead;
-import Utils.Point;
+import fieldObjects.SnakeHead;
+import utils.Point;
 public class UserInterface{
 
 	public void keyPressed(KeyEvent e, SnakeHead snakeHead) {

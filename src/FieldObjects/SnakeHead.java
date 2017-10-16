@@ -1,5 +1,5 @@
-package FieldObjects;
-import Utils.Point;
+package fieldObjects;
+import utils.Point;
 
 public class SnakeHead implements FieldObject {
 	private Point location;
