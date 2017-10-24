@@ -1,4 +1,5 @@
 package fieldObjects;
+import gui.Animation;
 import utils.Point;
 
 public interface FieldObject {
@@ -7,4 +8,5 @@ public interface FieldObject {
 	public Point getLocation();
 	public boolean isCollisionCapable();
 	public boolean deadInConflict();
+	public Animation getAnimation();
 }

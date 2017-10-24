@@ -40,8 +40,10 @@ public String getSymb(Class clazz) {
 		
 		for (int i = 0; i< this.width;i++) {
 			for (int j = 0 ; j< this.height; j ++) {
-				String t = this.getSymb(this.map[j][i].getClass());
-				g.drawString(t,j*size,i*size);  
+				//String t = this.getSymb(this.map[j][i].getClass());
+				this.map[i][j].getAnimation().changeImage();
+				g.drawImage(this.map[i][j].getAnimation().getPicture(), i*size, j*size,null);
+				//g.drawString(t,j*size,i*size);  
 			}
 		}
 	}
