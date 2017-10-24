@@ -10,7 +10,7 @@ public class Levels {
 	public static class Level1{
 		public static Field initilize() {
 			Field field = new Field(10, 10);
-			SnakeHead snakeHead = new SnakeHead(5, 6, new Point(-1, 0));
+			SnakeHead snakeHead = new SnakeHead(5, 6, new Point(0, -1));
 			SnakePart firstSnakePart = new SnakePart(5, 7);
 			SnakePart secondSnakePart = new SnakePart(5, 8);
 			snakeHead.setPreviousPart(firstSnakePart);
