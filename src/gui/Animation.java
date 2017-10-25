@@ -10,39 +10,57 @@ import javax.imageio.ImageIO;
 
 
 public class Animation {
-	 private ArrayList<Image> Images;
-	 private int IP;
-	 private int Frequency;
-	 private int TickCount;
+	 private ArrayList<Image> images;
+	 private int ip;
+	 private int frequency;
+	 private int tickCount;
+	 
+	 private Image errorImage = null;
 	 
 	 public Animation(File folder, int frequency) {
-		 this.Images = new ArrayList<Image>();
-		 this.IP = 0;
-		 this.TickCount = 0;
-		 this.Frequency = frequency;
+		 try {
+			 errorImage = ImageIO.read(new File("Animations\\ifNotFound\\1.png"));
+		 }
+		 catch (IOException e) {};
+		 images = new ArrayList<Image>();
+		 ip = 0;
+		 tickCount = 0;
+		 if (frequency <= 0) {
+			 this.frequency = 1;
+		 }
+		 else {
+			 this.frequency = frequency;			 
+		 }
 		 File[] pics = folder.listFiles();
 		 //System.out.print(pics.toString());
 		 for (File pic : pics) {
 		 		try {
 					Image img = ImageIO.read(pic);
-					this.Images.add(img);
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-		 	}	 	
+					images.add(img);
+				} catch (IOException e) {}
+		 	}
+		 if (images.size() == 0) {
+			 System.out.println(String.format("There are no files in %s", folder.toString()));
+		 }
 	 }
 	 
 	 public void changeImage() {
-		 this.TickCount++;
-		 if (this.TickCount%this.Frequency == 0){
-			 this.IP = (this.IP+1)%this.Images.size();
-			 this.TickCount = 1;
+		 if (images.size() == 0) {
+			 return;
+		 }
+		 tickCount++;
+		 if (tickCount%frequency == 0){
+			 ip = (ip+1)%images.size();
+			 tickCount = 1;
 		 }
 	 }
 	 
 	 public Image getPicture() {
-		 return this.Images.get(this.IP);
+		 if (images.size() == 0)
+		 {
+			 return errorImage;
+		 }
+		 return images.get(this.ip);
 	 }
 
 }

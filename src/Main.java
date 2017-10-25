@@ -67,16 +67,16 @@ public class Main {
 	}
 	
 	private static void startGui(Field field, Game game, SnakeHead snakeHead, Map<Integer, Point> wasd) {
-		int size = 100;
+		int size = 50;
 		int height = game.getField().getHeigth();
 		int width = game.getField().getWidth();
-		GUI gui = new GUI(game);
+		GUI gui = new GUI(game, size);
 		gui.setPreferredSize(new Dimension(width*size, height*size));
 
 		JFrame frame = new JFrame("Snake");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.addKeyListener(new KeyAdapter() {
-            public void keyPressed(KeyEvent e) {   
+            public void keyPressed(KeyEvent e) {
             	//Point reversedDirection = new Point(snakeHead.getDirection().x*(-1),
             	//									snakeHead.getDirection().y*(-1));
             	//if (wasd.containsKey(e.getKeyCode()) && 
