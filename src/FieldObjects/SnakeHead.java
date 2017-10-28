@@ -49,6 +49,6 @@ public class SnakeHead implements FieldObject {
 	}
 	
 	public Animation getAnimation() {
-		return this.animation;
+		return animation;
 	}
 }

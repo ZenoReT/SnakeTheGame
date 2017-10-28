@@ -4,13 +4,14 @@ import java.io.File;
 import gui.Animation;
 import utils.Point;
 
-public class Wall implements FieldObject {
+public class Bonus implements FieldObject {
 	private Point location;
+	
 	public Animation animation;
 	
-	public Wall(int x, int y) {
+	public Bonus(int x, int y) {
 		location = new Point(x, y);
-		animation = new Animation(new File("Animations\\Wall"), 1);
+		animation = new Animation(new File("Animations\\bonus"), 1);		
 	}
 
 	public void setLocation(int x, int y) {
@@ -24,11 +25,11 @@ public class Wall implements FieldObject {
 	public boolean isCollisionCapable() {
 		return true;
 	}
-	
+
 	public boolean deadInConflict() {
-		return true;
+		return false;
 	}
-	
+
 	public Animation getAnimation() {
 		return animation;
 	}

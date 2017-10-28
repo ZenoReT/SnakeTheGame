@@ -39,6 +39,6 @@ public class SnakePart implements FieldObject {
 	}
 	
 	public Animation getAnimation() {
-		return this.animation;
+		return animation;
 	}
 }

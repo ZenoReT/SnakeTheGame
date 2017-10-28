@@ -30,7 +30,6 @@ public class Apple implements FieldObject {
 	}
 	
 	public Animation getAnimation() {
-		return this.animation;
+		return animation;
 	}
-
 }

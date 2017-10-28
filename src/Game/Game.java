@@ -11,7 +11,7 @@ import utils.Point;
 
 public class Game {
 	public boolean gameOver = false;
-	private Field field = null;
+	private Field field;
 			
 	public Game(Field field) {
 		this.field = field;
