@@ -8,12 +8,12 @@ public class SnakeHead implements FieldObject {
 	private Point location;
 	private Point direction = new Point(-1, 0);
 	private SnakePart previousPart = null;
-	public Animation animation;
+	
 	
 	public SnakeHead(int x, int y, Point direction) {
 		location = new Point(x, y);
 		this.direction = direction;
-		animation = new Animation(new File("Animations\\Head"), 1);
+		
 	}
 
 	public void setLocation(int x, int y) {
@@ -48,7 +48,5 @@ public class SnakeHead implements FieldObject {
 		return previousPart;
 	}
 	
-	public Animation getAnimation() {
-		return animation;
-	}
+	
 }

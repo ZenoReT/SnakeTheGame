@@ -10,7 +10,7 @@ public class Apple implements FieldObject {
 	
 	public Apple(int x, int y) {
 		location = new Point(x, y);
-		animation = new Animation(new File("Animations\\Apple"), 1);
+		
 	}
 
 	public void setLocation(int x, int y) {
@@ -29,7 +29,5 @@ public class Apple implements FieldObject {
 		return false;
 	}
 	
-	public Animation getAnimation() {
-		return animation;
-	}
+	
 }

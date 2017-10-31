@@ -2,6 +2,7 @@ package game;
 import java.util.ArrayList;
 import java.util.Random;
 
+import fieldObjects.AcceleratorBonus;
 import fieldObjects.Apple;
 import fieldObjects.EmptyCell;
 import fieldObjects.FieldObject;
@@ -12,6 +13,10 @@ import utils.Point;
 public class Game {
 	public boolean gameOver = false;
 	private Field field;
+	private int speed = 500;
+	private Random rnd = new Random();
+	private final int bonus_chance = 85;
+	private boolean have_bonus_on_field = false;
 			
 	public Game(Field field) {
 		this.field = field;
@@ -21,11 +26,40 @@ public class Game {
 		return field;
 	}
 	
+	public int getSpeed() {
+		return speed;
+	}
+	
+	public void setSpeed(int speed) {
+		this.speed = speed;
+	}
+	
 	public void tick() {
 		SnakeHead snakeHead = findSnakeHead();
 		moveSnake(snakeHead);
 		if (isCollision(snakeHead)) {
 			treatCollision(snakeHead);
+		}
+		int chance = rnd.nextInt(100);
+		if (chance > bonus_chance && !have_bonus_on_field) {
+			ArrayList<FieldObject> emptyCells = getEmptyCells();
+			int id = rnd.nextInt(emptyCells.size());
+			field.getObjects().add(new AcceleratorBonus(emptyCells.get(id).getLocation().x,
+										emptyCells.get(id).getLocation().y));
+			have_bonus_on_field = true;
+		}
+		else if (have_bonus_on_field) {
+			for (int x = 0; x < field.getObjects().size(); x++) {
+				if (field.getObjects().get(x).getClass() == AcceleratorBonus.class) {
+					AcceleratorBonus acceleratorBonus = (AcceleratorBonus)field.getObjects().get(x);
+					acceleratorBonus.decreaseLifeTime();
+					if (acceleratorBonus.getLifeTime() <= 0) {
+						field.getObjects().remove(acceleratorBonus);
+						have_bonus_on_field = false;
+					}
+					break;
+				}
+			}
 		}
 		field.initilizeField();
 	}
@@ -87,24 +121,40 @@ public class Game {
 		if (cellObject.deadInConflict()){
 			gameOver = true;
 		}
-		else {
-			Object tailCell = findSnakeTail(snakeHead);
-			if (tailCell.getClass() == SnakeHead.class) {
-				SnakeHead snakeTail = (SnakeHead)tailCell;
-				snakeTail.setPreviousPart(new SnakePart(snakeTail.getLocation().x,
-                                                        snakeTail.getLocation().y));
-				field.getObjects().add(snakeTail.getPreviousPart());
-			}
-			else {
-				SnakePart snakeTail = (SnakePart)tailCell;
-				snakeTail.setPreviousPart(new SnakePart(snakeTail.getLocation().x,
-                                                        snakeTail.getLocation().y));
-				field.getObjects().add(snakeTail.getPreviousPart());
-				snakeTail = (SnakePart)snakeTail;
-			}
-			field.getObjects().remove(field.getField()[headLocation.x][headLocation.y]);
-			appleGenerator(snakeHead);
+		else if (cellObject.getClass() == Apple.class){
+			treatAppleCollision(cellObject, snakeHead);
 		}
+		else if (cellObject.getClass() == AcceleratorBonus.class) {
+			treatAccelerationBonusCollision(cellObject);
+		}
+	}
+	
+	private void treatAppleCollision(FieldObject cellObject, SnakeHead snakeHead) {
+		Object tailCell = findSnakeTail(snakeHead);
+		if (tailCell.getClass() == SnakeHead.class) {
+			SnakeHead snakeTail = (SnakeHead)tailCell;
+			snakeTail.setPreviousPart(new SnakePart(snakeTail.getLocation().x,
+                                                    snakeTail.getLocation().y));
+			field.getObjects().add(snakeTail.getPreviousPart());
+		}
+		else {
+			SnakePart snakeTail = (SnakePart)tailCell;
+			snakeTail.setPreviousPart(new SnakePart(snakeTail.getLocation().x,
+                                                    snakeTail.getLocation().y));
+			field.getObjects().add(snakeTail.getPreviousPart());
+			snakeTail = (SnakePart)snakeTail;
+		}
+		field.getObjects().remove(cellObject);
+		appleGenerator();
+	}
+	
+	private void treatAccelerationBonusCollision(FieldObject cellObject) {
+		AcceleratorBonus acceleratorBonus = (AcceleratorBonus)cellObject;
+		if (speed >= 100) {
+			setSpeed(speed - acceleratorBonus.speedChanger);
+		}
+		field.getObjects().remove(cellObject);
+		have_bonus_on_field = false;
 	}
 	
 	private ArrayList<FieldObject> getEmptyCells(){
@@ -120,10 +170,9 @@ public class Game {
 		return emptyCells;
 	}
 	
-	private void appleGenerator(SnakeHead snakeHead){
-		Random rand = new Random();
+	private void appleGenerator(){
 		ArrayList<FieldObject> emptyCells = getEmptyCells();
-		int id = rand.nextInt(emptyCells.size());
+		int id = rnd.nextInt(emptyCells.size());
 		field.getObjects().add(new Apple(emptyCells.get(id).getLocation().x,
 									emptyCells.get(id).getLocation().y));
 	}

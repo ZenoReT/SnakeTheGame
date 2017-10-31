@@ -11,11 +11,13 @@ import game.Game;
 
 public class GUI extends JPanel implements ActionListener{
 	
+	public Boolean onTick = false;
 	public FieldObject[][] map;
 	public int width;
 	public int height;
 	public int size;
 	public Game game;
+	private Painter painter;
 
 
 //public String getSymb(Class clazz) {
@@ -41,14 +43,18 @@ public class GUI extends JPanel implements ActionListener{
 		for (int x = 0; x< this.width;x++) {
 			for (int y = 0 ; y< this.height; y ++) {
 				//String t = this.getSymb(this.map[j][i].getClass());
-				this.map[x][y].getAnimation().changeImage();
-				g.drawImage(this.map[x][y].getAnimation().getPicture(), x*size, y*size, null);
+				Animation animation = painter.getAnimation(this.map[x][y]);
+				if (this.onTick)
+					animation.changeImage();
+				g.drawImage(animation.getPicture(), x*size, y*size,null);
 				//g.drawString(t,j*size,i*size);  
 			}
 		}
+		this.onTick = false;
 	}
 
 	public GUI(Game game, int size) {
+		this.painter = new Painter();
 		this.game = game;
 		this.map = game.getField().getField();
 		SnakeHead head = game.findSnakeHead();

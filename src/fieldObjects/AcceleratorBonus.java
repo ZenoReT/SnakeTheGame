@@ -4,14 +4,14 @@ import java.io.File;
 import gui.Animation;
 import utils.Point;
 
-public class Bonus implements FieldObject {
+public class AcceleratorBonus implements FieldObject {
 	private Point location;
+	private int lifeTime = 7;
+	public final int speedChanger = 50;
 	
-	public Animation animation;
-	
-	public Bonus(int x, int y) {
+	public AcceleratorBonus(int x, int y) {
 		location = new Point(x, y);
-		animation = new Animation(new File("Animations\\bonus"), 1);		
+			
 	}
 
 	public void setLocation(int x, int y) {
@@ -29,8 +29,12 @@ public class Bonus implements FieldObject {
 	public boolean deadInConflict() {
 		return false;
 	}
-
-	public Animation getAnimation() {
-		return animation;
+	
+	public int getLifeTime() {
+		return lifeTime;
+	}
+	
+	public void decreaseLifeTime() {
+		lifeTime--;
 	}
 }

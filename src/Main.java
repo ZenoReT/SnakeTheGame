@@ -75,6 +75,7 @@ public class Main {
 
 		JFrame frame = new JFrame("Snake");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setResizable(false);
         frame.addKeyListener(new KeyAdapter() {
             public void keyPressed(KeyEvent e) {
             	//Point reversedDirection = new Point(snakeHead.getDirection().x*(-1),
@@ -96,10 +97,11 @@ public class Main {
 		frame.setVisible(true);
 		while (!game.gameOver) {
 			try {
-				TimeUnit.MILLISECONDS.sleep(500);
+				TimeUnit.MILLISECONDS.sleep(game.getSpeed());
 			}
 			catch (InterruptedException e) {}
 			game.tick();
+			gui.onTick = true;
 			gui.repaint();
 			//gui.setVisible(true);
 		}
@@ -109,7 +111,7 @@ public class Main {
 		Scanner in = new Scanner(System.in);
 		while (!game.gameOver) {
 			try {
-				TimeUnit.MILLISECONDS.sleep(500);
+				TimeUnit.MILLISECONDS.sleep(game.getSpeed());
 			} 
 			catch (InterruptedException e) {}
 			CUI.print(field);
