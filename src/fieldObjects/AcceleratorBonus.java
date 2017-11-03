@@ -6,7 +6,7 @@ import utils.Point;
 
 public class AcceleratorBonus implements FieldObject {
 	private Point location;
-	private int lifeTime = 7;
+	private int lifeTime = 10;
 	public final int speedChanger = 50;
 	
 	public AcceleratorBonus(int x, int y) {

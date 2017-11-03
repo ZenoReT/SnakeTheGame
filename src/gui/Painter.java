@@ -9,6 +9,7 @@ import fieldObjects.*;
 
 
 public class Painter {
+	
 	private HashMap<FieldObject,Animation> objectsRepresentation;
 	
 	public Painter() {

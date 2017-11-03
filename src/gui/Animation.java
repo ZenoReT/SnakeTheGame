@@ -18,6 +18,7 @@ public class Animation {
 	 private int frequency;
 	 private int tickCount;
 	 
+	 
 	 private static Image errorImage = null;
 	 
 	 
@@ -43,7 +44,7 @@ public class Animation {
 		 else {
 			 this.images = new ArrayList<Image>();
 			 File[] pics = folder.listFiles();
-			 if (pics.length == 0) {
+			 if (pics == null || pics.length == 0) {
 				 images.add(errorImage);
 				 return;
 			 }

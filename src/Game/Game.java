@@ -42,10 +42,7 @@ public class Game {
 		}
 		int chance = rnd.nextInt(100);
 		if (chance > bonus_chance && !have_bonus_on_field) {
-			ArrayList<FieldObject> emptyCells = getEmptyCells();
-			int id = rnd.nextInt(emptyCells.size());
-			field.getObjects().add(new AcceleratorBonus(emptyCells.get(id).getLocation().x,
-										emptyCells.get(id).getLocation().y));
+			objectGenerator(AcceleratorBonus.class);
 			have_bonus_on_field = true;
 		}
 		else if (have_bonus_on_field) {
@@ -145,7 +142,7 @@ public class Game {
 			snakeTail = (SnakePart)snakeTail;
 		}
 		field.getObjects().remove(cellObject);
-		appleGenerator();
+		objectGenerator(Apple.class);
 	}
 	
 	private void treatAccelerationBonusCollision(FieldObject cellObject) {
@@ -170,10 +167,16 @@ public class Game {
 		return emptyCells;
 	}
 	
-	private void appleGenerator(){
+	private void objectGenerator(Class objectClass){
 		ArrayList<FieldObject> emptyCells = getEmptyCells();
 		int id = rnd.nextInt(emptyCells.size());
-		field.getObjects().add(new Apple(emptyCells.get(id).getLocation().x,
-									emptyCells.get(id).getLocation().y));
+		if (objectClass == Apple.class) {
+			field.getObjects().add(new Apple(emptyCells.get(id).getLocation().x,
+					emptyCells.get(id).getLocation().y));
+		}
+		else if (objectClass == AcceleratorBonus.class) {
+			field.getObjects().add(new AcceleratorBonus(emptyCells.get(id).getLocation().x,
+					emptyCells.get(id).getLocation().y));
+		}
 	}
 }
