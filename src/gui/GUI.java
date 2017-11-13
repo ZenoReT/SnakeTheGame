@@ -57,7 +57,6 @@ public class GUI extends JPanel implements ActionListener{
 		this.painter = new Painter();
 		this.game = game;
 		this.map = game.getField().getField();
-		SnakeHead head = game.findSnakeHead();
 		int height = game.getField().getHeigth();
 		int width = game.getField().getWidth();
 		this.width = width;

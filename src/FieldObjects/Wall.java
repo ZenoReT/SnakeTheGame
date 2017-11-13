@@ -1,7 +1,6 @@
 package fieldObjects;
-import java.io.File;
 
-import gui.Animation;
+import game.Game;
 import utils.Point;
 
 public class Wall implements FieldObject {
@@ -19,14 +18,8 @@ public class Wall implements FieldObject {
 	public Point getLocation() {
 		return location;
 	}
-
-	public boolean isCollisionCapable() {
-		return true;
+	
+	public void treatCollision(Game game) {
+		game.gameOver = true;
 	}
-	
-	public boolean deadInConflict() {
-		return true;
-	}
-	
-	
 }

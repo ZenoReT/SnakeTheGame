@@ -94,7 +94,11 @@ public class Tests {
 	public void testCorrectDeadInSnakePart() {
 		Field field = new Field(3, 3);
 		field.getObjects().add(new SnakeHead(2, 2, new Point(0, -1)));
-		field.getObjects().add(new SnakePart(2, 1));
+		SnakePart firstPart = new SnakePart(2, 1);
+		SnakePart secondPart = new SnakePart(2, 0);
+		firstPart.setPreviousPart(secondPart);
+		field.getObjects().add(firstPart);
+		field.getObjects().add(secondPart);
 		field.initilizeField();
 		Game game = new Game(field);
 		

@@ -1,6 +1,7 @@
 package fieldObjects;
-import java.io.File;
 
+import game.Field;
+import game.Game;
 import gui.Animation;
 import utils.Point;
 
@@ -21,13 +22,26 @@ public class Apple implements FieldObject {
 		return location;
 	}
 
-	public boolean isCollisionCapable() {
-		return true;
+	public void treatCollision(Game game) {
+		Field field = game.getField();
+		SnakeHead snakeHead = game.findSnakeHead(); 
+		Object tailCell = game.findSnakeTail(snakeHead);
+		Point headLocation = snakeHead.getLocation();
+		Object apple = field.getField()[headLocation.x][headLocation.y];
+		if (tailCell.getClass() == SnakeHead.class) {
+			SnakeHead snakeTail = (SnakeHead)tailCell;
+			snakeTail.setPreviousPart(new SnakePart(snakeTail.getLocation().x,
+                                                    snakeTail.getLocation().y));
+			field.getObjects().add(snakeTail.getPreviousPart());
+		}
+		else {
+			SnakePart snakeTail = (SnakePart)tailCell;
+			snakeTail.setPreviousPart(new SnakePart(snakeTail.getLocation().x,
+                                                    snakeTail.getLocation().y));
+			field.getObjects().add(snakeTail.getPreviousPart());
+			snakeTail = (SnakePart)snakeTail;
+		}
+		field.getObjects().remove(apple);
+		game.objectGenerator(Apple.class);
 	}
-	
-	public boolean deadInConflict() {
-		return false;
-	}
-	
-	
 }

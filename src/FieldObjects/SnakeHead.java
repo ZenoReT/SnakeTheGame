@@ -1,7 +1,6 @@
 package fieldObjects;
-import java.io.File;
 
-import gui.Animation;
+import game.Game;
 import utils.Point;
 
 public class SnakeHead implements FieldObject {
@@ -23,14 +22,6 @@ public class SnakeHead implements FieldObject {
 	public Point getLocation() {
 		return location;
 	}
-
-	public boolean isCollisionCapable() {
-		return true;
-	}
-	
-	public boolean deadInConflict() {
-		return true;
-	}
 	
 	public void setDirection(Point direction) {			
 		this.direction = direction;
@@ -48,5 +39,7 @@ public class SnakeHead implements FieldObject {
 		return previousPart;
 	}
 	
-	
+	public void treatCollision(Game game) {
+		game.gameOver = true;
+	}
 }

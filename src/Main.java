@@ -1,6 +1,4 @@
 import java.awt.Dimension;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.util.HashMap;
@@ -119,5 +117,6 @@ public class Main {
 			changeDirection(command, snakeHead);
 			game.tick();
 		}
+		in.close();
 	}
 }

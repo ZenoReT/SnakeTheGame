@@ -5,18 +5,20 @@ import java.util.Random;
 import fieldObjects.AcceleratorBonus;
 import fieldObjects.Apple;
 import fieldObjects.EmptyCell;
+import fieldObjects.FieldBonuses;
 import fieldObjects.FieldObject;
+import fieldObjects.ResetAcceleratorBonus;
 import fieldObjects.SnakeHead;
 import fieldObjects.SnakePart;
 import utils.Point;
+import utils.Consts;
 
 public class Game {
 	public boolean gameOver = false;
 	private Field field;
 	private int speed = 500;
 	private Random rnd = new Random();
-	private final int bonus_chance = 85;
-	private boolean have_bonus_on_field = false;
+	public Consts consts = new Consts();
 			
 	public Game(Field field) {
 		this.field = field;
@@ -37,28 +39,50 @@ public class Game {
 	public void tick() {
 		SnakeHead snakeHead = findSnakeHead();
 		moveSnake(snakeHead);
-		if (isCollision(snakeHead)) {
-			treatCollision(snakeHead);
+		Point headLocation = snakeHead.getLocation();
+		FieldObject currentCell = field.getField()[headLocation.x][headLocation.y];
+		
+		currentCell.treatCollision(this);
+		treatBonuses();
+		
+		field.initilizeField();
+	}
+	
+	private void treatBonuses() {
+		int chance = 0;
+		for (FieldBonuses bonus: consts.bonuses.keySet()){
+			chance = rnd.nextInt(100);
+			if (bonus.getBonusChance() >= chance && !consts.bonuses.get(bonus)){
+				objectGenerator(bonus.getClass());
+				consts.bonuses.put(bonus, true);
+			}
 		}
-		int chance = rnd.nextInt(100);
-		if (chance > bonus_chance && !have_bonus_on_field) {
-			objectGenerator(AcceleratorBonus.class);
-			have_bonus_on_field = true;
-		}
-		else if (have_bonus_on_field) {
-			for (int x = 0; x < field.getObjects().size(); x++) {
-				if (field.getObjects().get(x).getClass() == AcceleratorBonus.class) {
-					AcceleratorBonus acceleratorBonus = (AcceleratorBonus)field.getObjects().get(x);
-					acceleratorBonus.decreaseLifeTime();
-					if (acceleratorBonus.getLifeTime() <= 0) {
-						field.getObjects().remove(acceleratorBonus);
-						have_bonus_on_field = false;
-					}
-					break;
+		for (FieldBonuses fieldBonus: getBonuses()) {
+			Object bonusClass = fieldBonus.getClass();
+			if(fieldBonus.getLifeTime() > 0) {
+				fieldBonus.decreaseLifeTime();
+			}
+			else {
+				field.getObjects().remove(fieldBonus);
+				if (bonusClass == AcceleratorBonus.class) {
+					consts.bonuses.put(new AcceleratorBonus(-1, -1), false);
+				}
+				else if (bonusClass == ResetAcceleratorBonus.class) {
+					consts.bonuses.put(new ResetAcceleratorBonus(-1, -1), false);
 				}
 			}
 		}
-		field.initilizeField();
+	}
+	
+	private ArrayList<FieldBonuses> getBonuses(){
+		ArrayList<FieldBonuses> bonuses = new ArrayList<FieldBonuses>();
+		for (int i = 0; i < field.getObjects().size(); i++) {
+			Object currentObject = field.getObjects().get(i);
+			if (FieldBonuses.class.isAssignableFrom(currentObject.getClass())) {
+				bonuses.add((FieldBonuses)currentObject);
+			}
+		}
+		return bonuses;
 	}
 	
 	public SnakeHead findSnakeHead() {
@@ -104,56 +128,6 @@ public class Game {
 						      snakeHead.getLocation().y + snakeHead.getDirection().y);
 	}
 	
-	private boolean isCollision(SnakeHead snakeHead) {
-		Point headLocation = new Point(snakeHead.getLocation().x,
-								   	   snakeHead.getLocation().y);
-		FieldObject cellObject = field.getField()[headLocation.x][headLocation.y];
-		return cellObject.isCollisionCapable() && !cellObject.equals(findSnakeTail(snakeHead));
-	}
-	
-	private void treatCollision(SnakeHead snakeHead) {
-		Point headLocation = new Point(snakeHead.getLocation().x,
-				                   snakeHead.getLocation().y);
-		FieldObject cellObject = field.getField()[headLocation.x][headLocation.y];
-		if (cellObject.deadInConflict()){
-			gameOver = true;
-		}
-		else if (cellObject.getClass() == Apple.class){
-			treatAppleCollision(cellObject, snakeHead);
-		}
-		else if (cellObject.getClass() == AcceleratorBonus.class) {
-			treatAccelerationBonusCollision(cellObject);
-		}
-	}
-	
-	private void treatAppleCollision(FieldObject cellObject, SnakeHead snakeHead) {
-		Object tailCell = findSnakeTail(snakeHead);
-		if (tailCell.getClass() == SnakeHead.class) {
-			SnakeHead snakeTail = (SnakeHead)tailCell;
-			snakeTail.setPreviousPart(new SnakePart(snakeTail.getLocation().x,
-                                                    snakeTail.getLocation().y));
-			field.getObjects().add(snakeTail.getPreviousPart());
-		}
-		else {
-			SnakePart snakeTail = (SnakePart)tailCell;
-			snakeTail.setPreviousPart(new SnakePart(snakeTail.getLocation().x,
-                                                    snakeTail.getLocation().y));
-			field.getObjects().add(snakeTail.getPreviousPart());
-			snakeTail = (SnakePart)snakeTail;
-		}
-		field.getObjects().remove(cellObject);
-		objectGenerator(Apple.class);
-	}
-	
-	private void treatAccelerationBonusCollision(FieldObject cellObject) {
-		AcceleratorBonus acceleratorBonus = (AcceleratorBonus)cellObject;
-		if (speed >= 100) {
-			setSpeed(speed - acceleratorBonus.speedChanger);
-		}
-		field.getObjects().remove(cellObject);
-		have_bonus_on_field = false;
-	}
-	
 	private ArrayList<FieldObject> getEmptyCells(){
 		Object emptyCellClass = EmptyCell.class;
 		ArrayList<FieldObject> emptyCells = new ArrayList<FieldObject>();
@@ -167,16 +141,18 @@ public class Game {
 		return emptyCells;
 	}
 	
-	private void objectGenerator(Class objectClass){
+	public void objectGenerator(Class objectClass){
 		ArrayList<FieldObject> emptyCells = getEmptyCells();
 		int id = rnd.nextInt(emptyCells.size());
+		Point cellLocation = emptyCells.get(id).getLocation();
 		if (objectClass == Apple.class) {
-			field.getObjects().add(new Apple(emptyCells.get(id).getLocation().x,
-					emptyCells.get(id).getLocation().y));
+			field.getObjects().add(new Apple(cellLocation.x, cellLocation.y));
 		}
 		else if (objectClass == AcceleratorBonus.class) {
-			field.getObjects().add(new AcceleratorBonus(emptyCells.get(id).getLocation().x,
-					emptyCells.get(id).getLocation().y));
+			field.getObjects().add(new AcceleratorBonus(cellLocation.x, cellLocation.y));
+		}
+		else if (objectClass == ResetAcceleratorBonus.class) {
+			field.getObjects().add(new ResetAcceleratorBonus(cellLocation.x, cellLocation.y));
 		}
 	}
 }

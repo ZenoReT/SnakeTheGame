@@ -1,7 +1,6 @@
 package fieldObjects;
-import java.io.File;
 
-import gui.Animation;
+import game.Game;
 import utils.Point;
 
 public class EmptyCell implements FieldObject {
@@ -21,14 +20,6 @@ public class EmptyCell implements FieldObject {
 	public Point getLocation() {
 		return location;
 	}
-
-	public boolean isCollisionCapable() {
-		return false;
-	}
 	
-	public boolean deadInConflict() {
-		return false;
-	}
-	
-	
+	public void treatCollision(Game game) {}
 }
