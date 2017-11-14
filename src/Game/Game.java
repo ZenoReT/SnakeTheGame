@@ -133,7 +133,8 @@ public class Game {
 		ArrayList<FieldObject> emptyCells = new ArrayList<FieldObject>();
 		for (int x = 0; x < field.getWidth(); x++) {
 			for (int y = 0; y < field.getHeigth(); y++) {
-				if (field.getField()[x][y].getClass() == emptyCellClass) {
+				if (field.getField()[x][y].getClass() == emptyCellClass &&
+						!field.getObjects().contains(field.getField()[x][y])) {
 					emptyCells.add(field.getField()[x][y]);
 				}
 			}

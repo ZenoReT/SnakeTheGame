@@ -19,22 +19,6 @@ public class GUI extends JPanel implements ActionListener{
 	public Game game;
 	private Painter painter;
 
-
-//public String getSymb(Class clazz) {
-//		
-//		if (clazz == SnakeHead.class)
-//			return "0_0";
-//		else if (clazz == EmptyCell.class)
-//			return " ";
-//		else if (clazz == SnakePart.class)
-//			return "F";
-//		else if (clazz == Wall.class)
-//			return "#";
-//		else if (clazz == Apple.class)
-//			return "Apple";
-//		return "";
-//	}
-
 	public void paint(Graphics g) {
 		//setBackground(Color.black); 
 		this.map = game.getField().getField();
