@@ -3,7 +3,10 @@ import static org.junit.Assert.*;
 
 import org.junit.Test;
 
+import fieldObjects.AcceleratorBonus;
 import fieldObjects.Apple;
+import fieldObjects.FieldBonuses;
+import fieldObjects.ResetAcceleratorBonus;
 import fieldObjects.SnakeHead;
 import fieldObjects.SnakePart;
 import fieldObjects.Wall;
@@ -73,8 +76,8 @@ public class Tests {
 		Game game = new Game(field);
 		game.tick();
 		
-		assertTrue(field.getField()[2][0].getClass() == SnakeHead.class &&
-				   field.getField()[2][1].getClass() == SnakePart.class);
+		assertTrue(field.getField()[2][0].getClass() == SnakeHead.class);
+		assertTrue(field.getField()[2][1].getClass() == SnakePart.class);
 	}
 
 	@Test
@@ -140,5 +143,54 @@ public class Tests {
 		game.tick();
 		
 		assertTrue(!game.gameOver);
+	}
+	
+	@Test
+	public void testCorrectIncreaseSpeedAfterBonus() {
+		Field field = new Field(3, 3);
+		field.getObjects().add(new SnakeHead(2, 2, new Point(0, -1)));
+		FieldBonuses acceleratorBonus = (FieldBonuses)new AcceleratorBonus(2, 1);
+		field.getObjects().add(acceleratorBonus);
+		Game game = new Game(field);
+		int basicSpeed = 500;
+		field.initilizeField();
+		game.tick();
+		
+		assertEquals(basicSpeed - 50, game.getSpeed());
+		assertTrue(!field.getObjects().contains(acceleratorBonus));
+	}
+	
+	@Test
+	public void testCorrectSetDefaultSpeedAfterBonus() {
+		Field field = new Field(3, 3);
+		field.getObjects().add(new SnakeHead(2, 2, new Point(0, -1)));
+		FieldBonuses resetBonus = (FieldBonuses)new ResetAcceleratorBonus(2, 1);
+		field.getObjects().add(resetBonus);
+		Game game = new Game(field);
+		game.setSpeed(450);
+		int basicSpeed = 500;
+		field.initilizeField();
+		game.tick();
+		
+		assertEquals(basicSpeed, game.getSpeed());
+		assertTrue(!field.getObjects().contains(resetBonus));
+	}
+	
+	@Test
+	public void testBonusesWillClearAfterLifeTime() {
+		Field field = new Field(15, 15);
+		field.getObjects().add(new SnakeHead(1, 14, new Point(0, -1)));
+		FieldBonuses resetBonus = (FieldBonuses)new ResetAcceleratorBonus(2, 1);
+		FieldBonuses acceleratorBonus = (FieldBonuses)new AcceleratorBonus(2, 2);
+		field.getObjects().add(resetBonus);
+		field.getObjects().add(acceleratorBonus);
+		Game game = new Game(field);
+		field.initilizeField();
+		for (int i = 0; i < 11; i++) {
+			game.tick();
+		}
+		
+		assertTrue(!field.getObjects().contains(resetBonus));
+		assertTrue(!field.getObjects().contains(acceleratorBonus));
 	}
 }
