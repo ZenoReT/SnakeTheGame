@@ -1,11 +1,8 @@
 package game;
 import java.util.ArrayList;
 
-import fieldObjects.AcceleratorBonus;
-import fieldObjects.Apple;
 import fieldObjects.EmptyCell;
 import fieldObjects.FieldObject;
-import fieldObjects.ResetAcceleratorBonus;
 import fieldObjects.SnakeHead;
 import fieldObjects.SnakePart;
 import utils.Point;

@@ -1,19 +1,23 @@
 import java.awt.Dimension;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.io.IOException;
+import java.sql.Array;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Random;
 import java.util.Scanner;
 import java.util.concurrent.TimeUnit;
-
 import javax.swing.JFrame;
 
 import fieldObjects.SnakeHead;
 import game.Field;
 import game.Game;
 import game.Levels;
+import game.Level;
 import gui.CUI;
 import gui.GUI;
+import utils.Consts;
 import utils.Point;
 
 public class Main {
@@ -46,13 +50,13 @@ public class Main {
 		}
 	}
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws IOException {
 		Map<Integer,Point> wasd = new HashMap<Integer,Point>();
 		wasd.put(87,  new Point(0,-1));
 		wasd.put(65,  new Point(-1,0));
 		wasd.put(83,  new Point(0,1));
 		wasd.put(68,  new Point(1,0));
-		Field field = Levels.Level1.initilize();
+		Field field = Level.initilize(Consts.levels[new Random().nextInt(Consts.levels.length)]);
 		Game game = new Game(field);
 		SnakeHead snakeHead = game.findSnakeHead();
 		if (args.length == 0) {
