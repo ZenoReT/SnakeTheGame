@@ -34,4 +34,8 @@ public class SnakePart implements FieldObject {
 			game.gameOver = true;
 		}
 	}
+	
+	public void tick(Game game) {}
+	
+	public void generate(Game game) {}
 }

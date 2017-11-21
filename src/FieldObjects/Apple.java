@@ -1,5 +1,8 @@
 package fieldObjects;
 
+import java.util.ArrayList;
+import java.util.Random;
+
 import game.Field;
 import game.Game;
 import gui.Animation;
@@ -42,6 +45,16 @@ public class Apple implements FieldObject {
 			snakeTail = (SnakePart)snakeTail;
 		}
 		field.getObjects().remove(apple);
-		game.objectGenerator(Apple.class);
+		generate(game);
+	}
+	
+	public void tick(Game game) {}
+	
+	public void generate(Game game){
+		ArrayList<FieldObject> emptyCells = game.getEmptyCells();
+		Random rnd = new Random();
+		int id = rnd.nextInt(emptyCells.size());
+		Point cellLocation = emptyCells.get(id).getLocation();
+		game.getField().getObjects().add(new Apple(cellLocation.x, cellLocation.y));
 	}
 }

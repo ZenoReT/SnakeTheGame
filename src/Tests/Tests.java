@@ -5,7 +5,7 @@ import org.junit.Test;
 
 import fieldObjects.AcceleratorBonus;
 import fieldObjects.Apple;
-import fieldObjects.FieldBonuses;
+import fieldObjects.FieldObject;
 import fieldObjects.ResetAcceleratorBonus;
 import fieldObjects.SnakeHead;
 import fieldObjects.SnakePart;
@@ -149,7 +149,7 @@ public class Tests {
 	public void testCorrectIncreaseSpeedAfterBonus() {
 		Field field = new Field(3, 3);
 		field.getObjects().add(new SnakeHead(2, 2, new Point(0, -1)));
-		FieldBonuses acceleratorBonus = (FieldBonuses)new AcceleratorBonus(2, 1);
+		FieldObject acceleratorBonus = (FieldObject)new AcceleratorBonus(2, 1);
 		field.getObjects().add(acceleratorBonus);
 		Game game = new Game(field);
 		int basicSpeed = 500;
@@ -164,7 +164,7 @@ public class Tests {
 	public void testCorrectSetDefaultSpeedAfterBonus() {
 		Field field = new Field(3, 3);
 		field.getObjects().add(new SnakeHead(2, 2, new Point(0, -1)));
-		FieldBonuses resetBonus = (FieldBonuses)new ResetAcceleratorBonus(2, 1);
+		FieldObject resetBonus = (FieldObject) new ResetAcceleratorBonus(2, 1);
 		field.getObjects().add(resetBonus);
 		Game game = new Game(field);
 		game.setSpeed(450);
@@ -180,8 +180,8 @@ public class Tests {
 	public void testBonusesWillClearAfterLifeTime() {
 		Field field = new Field(15, 15);
 		field.getObjects().add(new SnakeHead(1, 14, new Point(0, -1)));
-		FieldBonuses resetBonus = (FieldBonuses)new ResetAcceleratorBonus(2, 1);
-		FieldBonuses acceleratorBonus = (FieldBonuses)new AcceleratorBonus(2, 2);
+		FieldObject resetBonus = (FieldObject)new ResetAcceleratorBonus(2, 1);
+		FieldObject acceleratorBonus = (FieldObject)new AcceleratorBonus(2, 2);
 		field.getObjects().add(resetBonus);
 		field.getObjects().add(acceleratorBonus);
 		Game game = new Game(field);

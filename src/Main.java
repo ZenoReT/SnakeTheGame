@@ -76,11 +76,6 @@ public class Main {
         frame.setResizable(false);
         frame.addKeyListener(new KeyAdapter() {
             public void keyPressed(KeyEvent e) {
-            	//Point reversedDirection = new Point(snakeHead.getDirection().x*(-1),
-            	//									snakeHead.getDirection().y*(-1));
-            	//if (wasd.containsKey(e.getKeyCode()) && 
-            	//		!equalsDirection(wasd.get(e.getKeyCode()), reversedDirection))
-            	//	snakeHead.setDirection(wasd.get(e.getKeyCode()));
             	if (wasd.containsKey(e.getKeyCode()) && 
             			canChangeDirection(snakeHead, wasd.get(e.getKeyCode()))) {
             		snakeHead.setDirection(wasd.get(e.getKeyCode()));
@@ -88,10 +83,8 @@ public class Main {
             	}
           });
         frame.add(gui);
-        //frame.setPreferredSize(new Dimension(width*size, height*size));
         frame.pack();
         frame.setVisible(true);
-        //frame.setLocationRelativeTo(null);
 		frame.setVisible(true);
 		while (!game.gameOver) {
 			try {
@@ -101,7 +94,6 @@ public class Main {
 			game.tick();
 			gui.onTick = true;
 			gui.repaint();
-			//gui.setVisible(true);
 		}
 	}
 	

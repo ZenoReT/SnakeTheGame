@@ -22,7 +22,7 @@ public class Levels {
 			for (int x = 0; x < field.getWidth(); x++) {
 				for (int y = 0; y < field.getHeigth(); y++) {
 					if (x == 0 || x == field.getWidth() - 1 ||
-						y == 0 || y == field.getWidth() - 1	) {
+						y == 0 || y == field.getHeigth() - 1) {
 						field.getObjects().add(new Wall(x, y));
 					}
 				}
