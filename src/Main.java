@@ -13,10 +13,10 @@ import javax.swing.JFrame;
 import fieldObjects.SnakeHead;
 import game.Field;
 import game.Game;
-import game.Levels;
-import game.Level;
 import gui.CUI;
 import gui.GUI;
+import levels.Level;
+import levels.Level1;
 import utils.Consts;
 import utils.Point;
 
@@ -56,14 +56,14 @@ public class Main {
 		wasd.put(65,  new Point(-1,0));
 		wasd.put(83,  new Point(0,1));
 		wasd.put(68,  new Point(1,0));
-		Field field = Level.initilize(Consts.levels[new Random().nextInt(Consts.levels.length)]);
-		Game game = new Game(field);
+		Level level = new Level1(Consts.levels[new Random().nextInt(Consts.levels.length)]);
+		Game game = new Game(level);
 		SnakeHead snakeHead = game.findSnakeHead();
 		if (args.length == 0) {
-			startGui(field, game, snakeHead, wasd);
+			startGui(level.getField(), game, snakeHead, wasd);
 		}
 		else {
-			startCui(field, game, snakeHead);
+			startCui(level.getField(), game, snakeHead);
 		}
 		System.exit(0);
 	}

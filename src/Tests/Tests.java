@@ -16,7 +16,7 @@ import utils.Point;
 
 public class Tests {
 
-	@Test
+	/*@Test
 	public void testCorrectSnakeHeadMove() {
 		Field field = new Field(3, 3);
 		field.getObjects().add(new SnakeHead(2, 2, new Point(0, -1)));
@@ -192,5 +192,5 @@ public class Tests {
 		
 		assertTrue(!field.getObjects().contains(resetBonus));
 		assertTrue(!field.getObjects().contains(acceleratorBonus));
-	}
+	}*/
 }

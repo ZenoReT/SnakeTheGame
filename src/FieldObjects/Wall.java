@@ -29,7 +29,7 @@ public class Wall implements FieldObject {
 	public void tick(Game game) {}
 	
 	public void generate(Game game){
-		ArrayList<FieldObject> emptyCells = game.getEmptyCells();
+		ArrayList<FieldObject> emptyCells = game.getLevel().getEmptyCells();
 		Random rnd = new Random();
 		int id = rnd.nextInt(emptyCells.size());
 		Point cellLocation = emptyCells.get(id).getLocation();

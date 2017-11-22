@@ -9,9 +9,8 @@ import utils.Point;
 
 public class ResetAcceleratorBonus implements FieldObject{
 	private Point location;
-	private int lifeTime = 10;
+	private int lifeTime = 5;
 	public static final int speedChanger = 500;
-	public static final int bonusChance = 1;
 	
 	public ResetAcceleratorBonus(int x, int y) {
 		location = new Point(x, y);
@@ -50,18 +49,20 @@ public class ResetAcceleratorBonus implements FieldObject{
 	
 	public void tick(Game game) {
 		decreaseLifeTime();
-		if (lifeTime == 0){
+		if (lifeTime <= 0){
 			Field field = game.getField();
-			SnakeHead snakeHead = game.findSnakeHead(); 
-			Point headLocation = snakeHead.getLocation();
-			Object bonus = field.getField()[headLocation.x][headLocation.y];
-			field.getObjects().remove(bonus);
+			for (int x = 0; x < field.getObjects().size(); x++) {
+				if (field.getObjects().get(x).getClass() == this.getClass()) {
+					field.getObjects().remove(field.getObjects().get(x));
+					break;
+				}
+			}
 			game.consts.bonuses.put(new ResetAcceleratorBonus(-1, -1), false);
 		}
 	}
 	
 	public void generate(Game game){
-		ArrayList<FieldObject> emptyCells = game.getEmptyCells();
+		ArrayList<FieldObject> emptyCells = game.getLevel().getEmptyCells();
 		Random rnd = new Random();
 		int id = rnd.nextInt(emptyCells.size());
 		Point cellLocation = emptyCells.get(id).getLocation();

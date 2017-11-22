@@ -5,6 +5,7 @@ import fieldObjects.EmptyCell;
 import fieldObjects.FieldObject;
 import fieldObjects.SnakeHead;
 import fieldObjects.SnakePart;
+import levels.Level;
 import utils.Point;
 import utils.Consts;
 
@@ -13,9 +14,11 @@ public class Game {
 	private Field field;
 	private int speed = 500;
 	public Consts consts = new Consts();
+	Level level;
 			
-	public Game(Field field) {
-		this.field = field;
+	public Game(Level level) {
+		field = level.getField();
+		this.level = level;
 	}
 	
 	public Field getField() {
@@ -30,6 +33,10 @@ public class Game {
 		this.speed = speed;
 	}
 	
+	public Level getLevel() {
+		return level;
+	}
+	
 	public void tick() {
 		SnakeHead snakeHead = findSnakeHead();
 		moveSnake(snakeHead);
@@ -38,6 +45,7 @@ public class Game {
 		
 		currentCell.treatCollision(this);
 		runObjectsTicks();
+		level.runRules();
 		
 		field.initilizeField();
 	}
@@ -49,7 +57,7 @@ public class Game {
 			}
 		}
 	}
-	
+
 	public SnakeHead findSnakeHead() {
 		Object classOfHead = SnakeHead.class;
 		SnakeHead snakeHead = null;
@@ -72,7 +80,7 @@ public class Game {
 		}
 		return currentPart;
 	}
-	
+
 	private void moveSnake(SnakeHead snakeHead) {
 		if (snakeHead.getPreviousPart() != null)
 		{
@@ -91,19 +99,5 @@ public class Game {
 		}
 		snakeHead.setLocation(snakeHead.getLocation().x + snakeHead.getDirection().x,
 						      snakeHead.getLocation().y + snakeHead.getDirection().y);
-	}
-	
-	public ArrayList<FieldObject> getEmptyCells(){
-		Object emptyCellClass = EmptyCell.class;
-		ArrayList<FieldObject> emptyCells = new ArrayList<FieldObject>();
-		for (int x = 0; x < field.getWidth(); x++) {
-			for (int y = 0; y < field.getHeigth(); y++) {
-				if (field.getField()[x][y].getClass() == emptyCellClass &&
-						!field.getObjects().contains(field.getField()[x][y])) {
-					emptyCells.add(field.getField()[x][y]);
-				}
-			}
-		}
-		return emptyCells;
 	}
 }

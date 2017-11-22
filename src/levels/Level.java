@@ -1,9 +1,12 @@
-package game;
+package levels;
 
 import fieldObjects.Apple;
+import fieldObjects.EmptyCell;
+import fieldObjects.FieldObject;
 import fieldObjects.SnakeHead;
 import fieldObjects.SnakePart;
 import fieldObjects.Wall;
+import game.Field;
 import utils.Point;
 
 import java.io.BufferedReader;
@@ -12,7 +15,12 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Level{
+public abstract class Level{
+	
+	public abstract Field getField();
+	
+	public abstract void runRules();
+
     public static Field loadFile(String file) throws IOException {
         BufferedReader reader = new BufferedReader(new FileReader(file));
         String line;
@@ -44,8 +52,18 @@ public class Level{
         field.initilizeField();
         return field;
     }
-
-    public static Field initilize(String level) throws IOException {
-        return Level.loadFile(String.format("src\\game\\levels\\%s.txt", level));
-    };
+    
+	public ArrayList<FieldObject> getEmptyCells(){
+		Object emptyCellClass = EmptyCell.class;
+		ArrayList<FieldObject> emptyCells = new ArrayList<FieldObject>();
+		for (int x = 0; x < getField().getWidth(); x++) {
+			for (int y = 0; y < getField().getHeigth(); y++) {
+				if (getField().getField()[x][y].getClass() == emptyCellClass &&
+						!getField().getObjects().contains(getField().getField()[x][y])) {
+					emptyCells.add(getField().getField()[x][y]);
+				}
+			}
+		}
+		return emptyCells;
+	}
 }
