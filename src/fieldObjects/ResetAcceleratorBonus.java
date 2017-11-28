@@ -10,11 +10,16 @@ import utils.Point;
 public class ResetAcceleratorBonus implements FieldObject{
 	private Point location;
 	private int lifeTime = 5;
-	public static final int speedChanger = 500;
+	private int speedChanger = 500;
 	
-	public ResetAcceleratorBonus(int x, int y) {
+	public ResetAcceleratorBonus(int x, int y, int lifeTime, int speedChanger) {
 		location = new Point(x, y);
-			
+		if (lifeTime > 0){
+			this.lifeTime = lifeTime;
+		}
+		if (speedChanger > 0) {
+			this.speedChanger = speedChanger;			
+		}
 	}
 
 	public void setLocation(int x, int y) {
@@ -44,7 +49,6 @@ public class ResetAcceleratorBonus implements FieldObject{
 		Object bonus = field.getField()[headLocation.x][headLocation.y];
 		game.setSpeed(speedChanger);
 		field.getObjects().remove(bonus);
-		game.consts.bonuses.put(new ResetAcceleratorBonus(-1, -1), false);
 	}
 	
 	public void tick(Game game) {
@@ -57,7 +61,6 @@ public class ResetAcceleratorBonus implements FieldObject{
 					break;
 				}
 			}
-			game.consts.bonuses.put(new ResetAcceleratorBonus(-1, -1), false);
 		}
 	}
 	
@@ -66,6 +69,6 @@ public class ResetAcceleratorBonus implements FieldObject{
 		Random rnd = new Random();
 		int id = rnd.nextInt(emptyCells.size());
 		Point cellLocation = emptyCells.get(id).getLocation();
-		game.getField().getObjects().add(new ResetAcceleratorBonus(cellLocation.x, cellLocation.y));
+		game.getField().getObjects().add(new ResetAcceleratorBonus(cellLocation.x, cellLocation.y, 0, 0));
 	}
 }

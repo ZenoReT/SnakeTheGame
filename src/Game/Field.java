@@ -48,4 +48,8 @@ public class Field {
 			}
 		}
 	}
+	
+	public boolean isOnField(int x, int y) {
+		return (x < getWidth() && x >= 0 && y < getHeigth() && y >= 0);
+	}
 }

@@ -9,13 +9,14 @@ import java.util.Set;
 import fieldObjects.AcceleratorBonus;
 import fieldObjects.FieldObject;
 import fieldObjects.ResetAcceleratorBonus;
+import fieldObjects.Wall;
+import fieldObjects.WallWithTrap;
 import game.Field;
 import utils.Consts;
 
 public class Level1 extends Level {
 	private Field field;
 	private int bonusChance = 15;
-	private Consts consts = new Consts();
 	private Random rnd = new Random();
 
 	public Level1(String level) throws IOException {
@@ -28,20 +29,22 @@ public class Level1 extends Level {
 
 	public void runRules() {
 		ArrayList<FieldObject> emptyCells = getEmptyCells();
+		ArrayList<FieldObject> walls = getObjectsOf(Wall.class);
 		int chance = rnd.nextInt(100);
 		int cellID = rnd.nextInt(emptyCells.size());
+		int wallID = rnd.nextInt(walls.size());
 		utils.Point cellLocation = emptyCells.get(cellID).getLocation();
-		Object[] bonuses = consts.bonuses.keySet().toArray();
-		int bonusID = rnd.nextInt(bonuses.length);
-		FieldObject bonus = (FieldObject)bonuses[bonusID];
-		if (!consts.bonuses.get(bonus) && bonusChance > chance) {
-			if (bonus.getClass() == AcceleratorBonus.class) {
-				field.getObjects().add(new AcceleratorBonus(cellLocation.x, cellLocation.y));
-				consts.bonuses.put(new AcceleratorBonus(-1, -1), true);					
+		utils.Point wallLocation = walls.get(wallID).getLocation();
+		int bonusID = rnd.nextInt(3);
+		if (bonusChance > chance) {
+			if (bonusID == 0 && getObjectsOf(AcceleratorBonus.class).size() == 0) {
+				field.getObjects().add(new AcceleratorBonus(cellLocation.x, cellLocation.y, 10, 0));
 			}
-			else if (bonus.getClass() == ResetAcceleratorBonus.class) {
-				field.getObjects().add(new ResetAcceleratorBonus(cellLocation.x, cellLocation.y));
-				consts.bonuses.put(new ResetAcceleratorBonus(-1, -1), true);					
+			else if (bonusID == 1 && getObjectsOf(ResetAcceleratorBonus.class).size() == 0) {
+				field.getObjects().add(new ResetAcceleratorBonus(cellLocation.x, cellLocation.y, 10, 0));
+			}
+			else if (bonusID == 2 && getObjectsOf(WallWithTrap.class).size() == 0) {
+				field.getObjects().add(new WallWithTrap(wallLocation.x, wallLocation.y, 0));
 			}
 		}
 	}

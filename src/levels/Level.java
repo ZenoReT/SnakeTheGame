@@ -66,4 +66,14 @@ public abstract class Level{
 		}
 		return emptyCells;
 	}
+	
+	public ArrayList<FieldObject> getObjectsOf(Class objectClass){
+		ArrayList<FieldObject> objects = new ArrayList<FieldObject>();
+		for (int i = 0; i < getField().getObjects().size(); i++) {
+			if (getField().getObjects().get(i).getClass() == objectClass) {
+			objects.add((FieldObject)getField().getObjects().get(i));
+			}
+		}
+		return objects;
+	}
 }
