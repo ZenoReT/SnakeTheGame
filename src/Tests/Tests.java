@@ -12,16 +12,20 @@ import fieldObjects.SnakePart;
 import fieldObjects.Wall;
 import game.Field;
 import game.Game;
+import levels.Level;
+import levels.TestLevel;
 import utils.Point;
 
 public class Tests {
 
-	/*@Test
+	@Test
 	public void testCorrectSnakeHeadMove() {
 		Field field = new Field(3, 3);
 		field.getObjects().add(new SnakeHead(2, 2, new Point(0, -1)));
 		field.initilizeField();
-		Game game = new Game(field);
+		Level level = new TestLevel();
+		level.setField(field);
+		Game game = new Game(level);
 		
 		game.tick();
 		
@@ -34,7 +38,9 @@ public class Tests {
 		field.getObjects().add(new SnakeHead(2, 2, new Point(0, -1)));
 		field.getObjects().add(new Apple(2, 1));
 		field.initilizeField();
-		Game game = new Game(field);
+		Level level = new TestLevel();
+		level.setField(field);
+		Game game = new Game(level);
 		
 		game.tick();
 		
@@ -48,7 +54,9 @@ public class Tests {
 		field.getObjects().add(new Apple(2, 1));
 		field.getObjects().add(new Apple(2, 0));
 		field.initilizeField();
-		Game game = new Game(field);
+		Level level = new TestLevel();
+		level.setField(field);
+		Game game = new Game(level);
 		
 		game.tick();
 		game.tick();
@@ -73,7 +81,9 @@ public class Tests {
 		field.getObjects().add(snakeHead);
 		field.getObjects().add(snakePart);
 		field.initilizeField();
-		Game game = new Game(field);
+		Level level = new TestLevel();
+		level.setField(field);
+		Game game = new Game(level);
 		game.tick();
 		
 		assertTrue(field.getField()[2][0].getClass() == SnakeHead.class);
@@ -86,7 +96,9 @@ public class Tests {
 		field.getObjects().add(new SnakeHead(2, 2, new Point(0, -1)));
 		field.getObjects().add(new Wall(2, 1));
 		field.initilizeField();
-		Game game = new Game(field);
+		Level level = new TestLevel();
+		level.setField(field);
+		Game game = new Game(level);
 		
 		game.tick();
 		
@@ -103,7 +115,9 @@ public class Tests {
 		field.getObjects().add(firstPart);
 		field.getObjects().add(secondPart);
 		field.initilizeField();
-		Game game = new Game(field);
+		Level level = new TestLevel();
+		level.setField(field);
+		Game game = new Game(level);
 		
 		game.tick();
 		
@@ -116,7 +130,9 @@ public class Tests {
 		field.getObjects().add(new SnakeHead(2, 2, new Point(0, -1)));
 		field.getObjects().add(new SnakeHead(2, 1, new Point(0, 0)));
 		field.initilizeField();
-		Game game = new Game(field);
+		Level level = new TestLevel();
+		level.setField(field);
+		Game game = new Game(level);
 		
 		game.tick();
 		
@@ -138,7 +154,9 @@ public class Tests {
 		field.getObjects().add(secondPart);
 		field.getObjects().add(thirdPart);
 		field.initilizeField();
-		Game game = new Game(field);
+		Level level = new TestLevel();
+		level.setField(field);
+		Game game = new Game(level);
 		
 		game.tick();
 		
@@ -149,9 +167,11 @@ public class Tests {
 	public void testCorrectIncreaseSpeedAfterBonus() {
 		Field field = new Field(3, 3);
 		field.getObjects().add(new SnakeHead(2, 2, new Point(0, -1)));
-		FieldObject acceleratorBonus = (FieldObject)new AcceleratorBonus(2, 1);
+		FieldObject acceleratorBonus = (FieldObject)new AcceleratorBonus(2, 1, 5, 50);
 		field.getObjects().add(acceleratorBonus);
-		Game game = new Game(field);
+		Level level = new TestLevel();
+		level.setField(field);
+		Game game = new Game(level);
 		int basicSpeed = 500;
 		field.initilizeField();
 		game.tick();
@@ -164,9 +184,11 @@ public class Tests {
 	public void testCorrectSetDefaultSpeedAfterBonus() {
 		Field field = new Field(3, 3);
 		field.getObjects().add(new SnakeHead(2, 2, new Point(0, -1)));
-		FieldObject resetBonus = (FieldObject) new ResetAcceleratorBonus(2, 1);
+		FieldObject resetBonus = (FieldObject) new ResetAcceleratorBonus(2, 1, 5, 500);
 		field.getObjects().add(resetBonus);
-		Game game = new Game(field);
+		Level level = new TestLevel();
+		level.setField(field);
+		Game game = new Game(level);
 		game.setSpeed(450);
 		int basicSpeed = 500;
 		field.initilizeField();
@@ -180,11 +202,13 @@ public class Tests {
 	public void testBonusesWillClearAfterLifeTime() {
 		Field field = new Field(15, 15);
 		field.getObjects().add(new SnakeHead(1, 14, new Point(0, -1)));
-		FieldObject resetBonus = (FieldObject)new ResetAcceleratorBonus(2, 1);
-		FieldObject acceleratorBonus = (FieldObject)new AcceleratorBonus(2, 2);
+		FieldObject resetBonus = (FieldObject)new ResetAcceleratorBonus(2, 1, 10, 0);
+		FieldObject acceleratorBonus = (FieldObject)new AcceleratorBonus(2, 2, 10, 0);
 		field.getObjects().add(resetBonus);
 		field.getObjects().add(acceleratorBonus);
-		Game game = new Game(field);
+		Level level = new TestLevel();
+		level.setField(field);
+		Game game = new Game(level);
 		field.initilizeField();
 		for (int i = 0; i < 11; i++) {
 			game.tick();
@@ -192,5 +216,5 @@ public class Tests {
 		
 		assertTrue(!field.getObjects().contains(resetBonus));
 		assertTrue(!field.getObjects().contains(acceleratorBonus));
-	}*/
+	}
 }

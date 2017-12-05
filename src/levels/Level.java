@@ -19,6 +19,8 @@ public abstract class Level{
 	
 	public abstract Field getField();
 	
+	public abstract void setField(Field field);
+	
 	public abstract void runRules();
 
     public static Field loadFile(String file) throws IOException {

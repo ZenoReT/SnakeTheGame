@@ -37,8 +37,8 @@ public class WallWithTrap implements FieldObject {
 	private Point getDirectionOfShell(Game game) {
 		int lenToNextWall = 0;
 		Point direction = new Point(0, 0);
-		for (int x = -1; x < 1; x++) {
-			for (int y = -1; y < 1; y++) {
+		for (int x = -1; x <= 1; x++) {
+			for (int y = -1; y <= 1; y++) {
 				if(Math.abs(x) != Math.abs(y)) {
 					int currentLen = getLenToWallTo(game, new Point(x, y));
 					if (currentLen > lenToNextWall) {

@@ -16,7 +16,7 @@ import utils.Consts;
 
 public class Level1 extends Level {
 	private Field field;
-	private int bonusChance = 15;
+	private int bonusChance = 70;
 	private Random rnd = new Random();
 
 	public Level1(String level) throws IOException {
@@ -25,6 +25,10 @@ public class Level1 extends Level {
 
 	public Field getField() {
 		return field;
+	}
+	
+	public void setField(Field field) {
+		this.field = field;
 	}
 
 	public void runRules() {
