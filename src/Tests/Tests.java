@@ -7,6 +7,7 @@ import fieldObjects.AcceleratorBonus;
 import fieldObjects.Apple;
 import fieldObjects.FieldObject;
 import fieldObjects.ResetAcceleratorBonus;
+import fieldObjects.Shell;
 import fieldObjects.SnakeHead;
 import fieldObjects.SnakePart;
 import fieldObjects.Wall;
@@ -169,11 +170,11 @@ public class Tests {
 		field.getObjects().add(new SnakeHead(2, 2, new Point(0, -1)));
 		FieldObject acceleratorBonus = (FieldObject)new AcceleratorBonus(2, 1, 5, 50);
 		field.getObjects().add(acceleratorBonus);
+		field.initilizeField();
 		Level level = new TestLevel();
 		level.setField(field);
 		Game game = new Game(level);
 		int basicSpeed = 500;
-		field.initilizeField();
 		game.tick();
 		
 		assertEquals(basicSpeed - 50, game.getSpeed());
@@ -188,10 +189,10 @@ public class Tests {
 		field.getObjects().add(resetBonus);
 		Level level = new TestLevel();
 		level.setField(field);
+		field.initilizeField();
 		Game game = new Game(level);
 		game.setSpeed(450);
 		int basicSpeed = 500;
-		field.initilizeField();
 		game.tick();
 		
 		assertEquals(basicSpeed, game.getSpeed());
@@ -206,15 +207,43 @@ public class Tests {
 		FieldObject acceleratorBonus = (FieldObject)new AcceleratorBonus(2, 2, 10, 0);
 		field.getObjects().add(resetBonus);
 		field.getObjects().add(acceleratorBonus);
+		field.initilizeField();
 		Level level = new TestLevel();
 		level.setField(field);
 		Game game = new Game(level);
-		field.initilizeField();
 		for (int i = 0; i < 11; i++) {
 			game.tick();
 		}
 		
 		assertTrue(!field.getObjects().contains(resetBonus));
 		assertTrue(!field.getObjects().contains(acceleratorBonus));
+	}
+	
+	@Test
+	public void testShellKillSnakeWhenHitTheHead() {
+		Field field = new Field(15, 15);
+		field.getObjects().add(new SnakeHead(1, 14, new Point(0, -1)));
+		field.getObjects().add(new Shell(1, 13, new Point(0, 1)));
+		field.initilizeField();
+		Level level = new TestLevel();
+		level.setField(field);
+		Game game = new Game(level);
+		game.tick();
+		
+		assertTrue(game.gameOver);
+	}
+
+	@Test
+	public void testShellNotKillSnakeWhenSheTurn() {
+		Field field = new Field(15, 15);
+		field.getObjects().add(new SnakeHead(1, 14, new Point(1, 0)));
+		field.getObjects().add(new Shell(1, 13, new Point(0, 1)));
+		field.initilizeField();
+		Level level = new TestLevel();
+		level.setField(field);
+		Game game = new Game(level);
+		game.tick();
+		
+		assertTrue(!game.gameOver);
 	}
 }
