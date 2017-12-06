@@ -1,4 +1,6 @@
 package fieldObjects;
+
+import game.Game;
 import utils.Point;
 
 public class SnakeHead implements FieldObject {
@@ -6,9 +8,11 @@ public class SnakeHead implements FieldObject {
 	private Point direction = new Point(-1, 0);
 	private SnakePart previousPart = null;
 	
+	
 	public SnakeHead(int x, int y, Point direction) {
 		location = new Point(x, y);
 		this.direction = direction;
+		
 	}
 
 	public void setLocation(int x, int y) {
@@ -17,14 +21,6 @@ public class SnakeHead implements FieldObject {
 
 	public Point getLocation() {
 		return location;
-	}
-
-	public boolean isCollisionCapable() {
-		return true;
-	}
-	
-	public boolean deadInConflict() {
-		return true;
 	}
 	
 	public void setDirection(Point direction) {			
@@ -42,4 +38,10 @@ public class SnakeHead implements FieldObject {
 	public SnakePart getPreviousPart() {
 		return previousPart;
 	}
+	
+	public void treatCollisionWithSnake(Game game) {
+		game.gameOver = true;
+	}
+	
+	public void tick(Game game) {}
 }

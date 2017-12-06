@@ -1,6 +1,8 @@
 package gui;
+import fieldObjects.AcceleratorBonus;
 import fieldObjects.Apple;
 import fieldObjects.EmptyCell;
+import fieldObjects.ResetAcceleratorBonus;
 import fieldObjects.SnakeHead;
 import fieldObjects.SnakePart;
 import fieldObjects.Wall;
@@ -24,6 +26,12 @@ public class CUI {
 				}
 				if (field.getField()[x][y].getClass() == Wall.class) {
 					System.out.print("#");
+				}
+				if (field.getField()[x][y].getClass() == AcceleratorBonus.class) {
+					System.out.print('S');
+				}
+				if (field.getField()[x][y].getClass() == ResetAcceleratorBonus.class) {
+					System.out.print('R');
 				}
 			}
 			System.out.println();
