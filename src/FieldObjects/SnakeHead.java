@@ -39,11 +39,9 @@ public class SnakeHead implements FieldObject {
 		return previousPart;
 	}
 	
-	public void treatCollision(Game game) {
+	public void treatCollisionWithSnake(Game game) {
 		game.gameOver = true;
 	}
 	
 	public void tick(Game game) {}
-	
-	public void generate(Game game){}
 }

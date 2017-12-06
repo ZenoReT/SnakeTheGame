@@ -22,17 +22,9 @@ public class Wall implements FieldObject {
 		return location;
 	}
 	
-	public void treatCollision(Game game) {
+	public void treatCollisionWithSnake(Game game) {
 		game.gameOver = true;
 	}
 	
 	public void tick(Game game) {}
-	
-	public void generate(Game game){
-		ArrayList<FieldObject> emptyCells = game.getLevel().getEmptyCells();
-		Random rnd = new Random();
-		int id = rnd.nextInt(emptyCells.size());
-		Point cellLocation = emptyCells.get(id).getLocation();
-		game.getField().getObjects().add(new Wall(cellLocation.x, cellLocation.y));
-	}
 }

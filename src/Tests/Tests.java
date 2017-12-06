@@ -1,4 +1,5 @@
 package tests;
+
 import static org.junit.Assert.*;
 
 import org.junit.Test;
@@ -11,6 +12,7 @@ import fieldObjects.Shell;
 import fieldObjects.SnakeHead;
 import fieldObjects.SnakePart;
 import fieldObjects.Wall;
+import fieldObjects.WallWithTrap;
 import game.Field;
 import game.Game;
 import levels.Level;
@@ -27,12 +29,12 @@ public class Tests {
 		Level level = new TestLevel();
 		level.setField(field);
 		Game game = new Game(level);
-		
+
 		game.tick();
-		
+
 		assertEquals(field.getField()[2][1].getClass(), SnakeHead.class);
 	}
-	
+
 	@Test
 	public void testCorrectEatsApple() {
 		Field field = new Field(3, 3);
@@ -42,12 +44,12 @@ public class Tests {
 		Level level = new TestLevel();
 		level.setField(field);
 		Game game = new Game(level);
-		
+
 		game.tick();
-		
+
 		assertTrue(!field.getObjects().contains(new Apple(2, 1)));
 	}
-	
+
 	@Test
 	public void testIncreaseAfterEatsApple() {
 		Field field = new Field(3, 3);
@@ -58,21 +60,21 @@ public class Tests {
 		Level level = new TestLevel();
 		level.setField(field);
 		Game game = new Game(level);
-		
+
 		game.tick();
 		game.tick();
 		int actualLength = 2;
 		int expected = 3;
 		SnakeHead snakeHead = game.findSnakeHead();
 		SnakePart currentPart = snakeHead.getPreviousPart();
-		while(currentPart.getPreviousPart() != null) {
+		while (currentPart.getPreviousPart() != null) {
 			currentPart = currentPart.getPreviousPart();
 			actualLength++;
 		}
-		
+
 		assertEquals(expected, actualLength);
 	}
-	
+
 	@Test
 	public void testCorrectMoveSnakeWithBody() {
 		Field field = new Field(3, 3);
@@ -86,7 +88,7 @@ public class Tests {
 		level.setField(field);
 		Game game = new Game(level);
 		game.tick();
-		
+
 		assertTrue(field.getField()[2][0].getClass() == SnakeHead.class);
 		assertTrue(field.getField()[2][1].getClass() == SnakePart.class);
 	}
@@ -100,12 +102,12 @@ public class Tests {
 		Level level = new TestLevel();
 		level.setField(field);
 		Game game = new Game(level);
-		
+
 		game.tick();
-		
+
 		assertTrue(game.gameOver);
 	}
-	
+
 	@Test
 	public void testCorrectDeadInSnakePart() {
 		Field field = new Field(3, 3);
@@ -119,12 +121,12 @@ public class Tests {
 		Level level = new TestLevel();
 		level.setField(field);
 		Game game = new Game(level);
-		
+
 		game.tick();
-		
+
 		assertTrue(game.gameOver);
 	}
-	
+
 	@Test
 	public void testCorrectDeadInSnakeHead() {
 		Field field = new Field(3, 3);
@@ -134,12 +136,12 @@ public class Tests {
 		Level level = new TestLevel();
 		level.setField(field);
 		Game game = new Game(level);
-		
+
 		game.tick();
-		
+
 		assertTrue(game.gameOver);
 	}
-	
+
 	@Test
 	public void testCorrectMoveToTail() {
 		Field field = new Field(3, 3);
@@ -158,17 +160,17 @@ public class Tests {
 		Level level = new TestLevel();
 		level.setField(field);
 		Game game = new Game(level);
-		
+
 		game.tick();
-		
+
 		assertTrue(!game.gameOver);
 	}
-	
+
 	@Test
 	public void testCorrectIncreaseSpeedAfterBonus() {
 		Field field = new Field(3, 3);
 		field.getObjects().add(new SnakeHead(2, 2, new Point(0, -1)));
-		FieldObject acceleratorBonus = (FieldObject)new AcceleratorBonus(2, 1, 5, 50);
+		FieldObject acceleratorBonus = (FieldObject) new AcceleratorBonus(2, 1, 5, 50);
 		field.getObjects().add(acceleratorBonus);
 		field.initilizeField();
 		Level level = new TestLevel();
@@ -176,11 +178,11 @@ public class Tests {
 		Game game = new Game(level);
 		int basicSpeed = 500;
 		game.tick();
-		
+
 		assertEquals(basicSpeed - 50, game.getSpeed());
 		assertTrue(!field.getObjects().contains(acceleratorBonus));
 	}
-	
+
 	@Test
 	public void testCorrectSetDefaultSpeedAfterBonus() {
 		Field field = new Field(3, 3);
@@ -194,17 +196,17 @@ public class Tests {
 		game.setSpeed(450);
 		int basicSpeed = 500;
 		game.tick();
-		
+
 		assertEquals(basicSpeed, game.getSpeed());
 		assertTrue(!field.getObjects().contains(resetBonus));
 	}
-	
+
 	@Test
 	public void testBonusesWillClearAfterLifeTime() {
 		Field field = new Field(15, 15);
 		field.getObjects().add(new SnakeHead(1, 14, new Point(0, -1)));
-		FieldObject resetBonus = (FieldObject)new ResetAcceleratorBonus(2, 1, 10, 0);
-		FieldObject acceleratorBonus = (FieldObject)new AcceleratorBonus(2, 2, 10, 0);
+		FieldObject resetBonus = (FieldObject) new ResetAcceleratorBonus(2, 1, 10, 0);
+		FieldObject acceleratorBonus = (FieldObject) new AcceleratorBonus(2, 2, 10, 0);
 		field.getObjects().add(resetBonus);
 		field.getObjects().add(acceleratorBonus);
 		field.initilizeField();
@@ -214,11 +216,19 @@ public class Tests {
 		for (int i = 0; i < 11; i++) {
 			game.tick();
 		}
-		
+
 		assertTrue(!field.getObjects().contains(resetBonus));
 		assertTrue(!field.getObjects().contains(acceleratorBonus));
 	}
-	
+//	@Test
+//	public void testShellNotKillSnakeWhenSheTurn() {
+//		Game game = makeTickWith(
+//				new SnakeHead(1, 14, new Point(1, 0)), 
+//				new SnakeHead(1, 14, new Point(1, 0)));
+//
+//		assertTrue(!game.gameOver);
+//	}
+
 	@Test
 	public void testShellKillSnakeWhenHitTheHead() {
 		Field field = new Field(15, 15);
@@ -229,7 +239,7 @@ public class Tests {
 		level.setField(field);
 		Game game = new Game(level);
 		game.tick();
-		
+
 		assertTrue(game.gameOver);
 	}
 
@@ -243,7 +253,25 @@ public class Tests {
 		level.setField(field);
 		Game game = new Game(level);
 		game.tick();
-		
+
 		assertTrue(!game.gameOver);
+	}
+
+	@Test
+	public void testWallWithTrapShootInCorrectDirection() {
+		Field field = new Field(15, 15);
+		field.getObjects().add(new SnakeHead(2, 2, new Point(0, 0)));
+		field.getObjects().add(new WallWithTrap(5, 5, 5));
+		field.getObjects().add(new Wall(0, 5));
+		field.getObjects().add(new Wall(14, 5));
+		field.getObjects().add(new Wall(5, 1));
+		field.getObjects().add(new Wall(5, 13));
+		field.initilizeField();
+		Level level = new TestLevel();
+		level.setField(field);
+		Game game = new Game(level);
+		game.tick();
+		Shell shell = (Shell) field.getObjects().get(field.getObjects().size() - 1);
+		assertEquals(shell.getDirection(), new Point(1, 0));
 	}
 }

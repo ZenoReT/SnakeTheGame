@@ -23,13 +23,12 @@ import utils.Point;
 public class Main {
 	
 	public static boolean equalsDirection(Point firstDirection, Point secondDirection) {
-		return firstDirection.x == secondDirection.x && firstDirection.y == secondDirection.y;
+		return firstDirection.equals(secondDirection);
 	}
 	
 	public static boolean canChangeDirection(SnakeHead snakeHead, Point newDirection) {
 		if (snakeHead.getPreviousPart() == null || !equalsDirection(
-				new Point(snakeHead.getPreviousPart().getLocation().x - snakeHead.getLocation().x,
-		                  snakeHead.getPreviousPart().getLocation().y - snakeHead.getLocation().y),
+				snakeHead.getPreviousPart().getLocation().sub(snakeHead.getLocation()),
 						  newDirection))
 			return true;
 		return false;

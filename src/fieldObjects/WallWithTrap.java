@@ -26,7 +26,7 @@ public class WallWithTrap implements FieldObject {
 		return location;
 	}
 
-	public void treatCollision(Game game) {
+	public void treatCollisionWithSnake(Game game) {
 		game.gameOver = true;
 	}
 	
@@ -53,11 +53,11 @@ public class WallWithTrap implements FieldObject {
 	
 	private int getLenToWallTo(Game game, Point direction) {
 		FieldObject[][] field = game.getField().getField();
-		Point shellLocation = new Point(location.x + direction.x, location.y + direction.y);
+		Point shellLocation = new Point(location.add(direction));
 		int lenToWall = 0;
 		while (game.getField().isOnField(shellLocation.x, shellLocation.y) &&
-				field[shellLocation.x][shellLocation.y].getClass() != Wall.class){
-			shellLocation = new Point(shellLocation.x + direction.x, shellLocation.y + direction.y);
+				!(field[shellLocation.x][shellLocation.y] instanceof Wall)){
+			shellLocation = shellLocation.add(direction);
 			lenToWall++;
 		}
 		return lenToWall;
@@ -66,12 +66,7 @@ public class WallWithTrap implements FieldObject {
 	public void tick(Game game) {
 		if (lifeTime <= 0) {
 			Field field = game.getField();
-			for (int x = 0; x < field.getObjects().size(); x++) {
-				if (field.getObjects().get(x).getClass() == this.getClass()) {
-					field.getObjects().remove(field.getObjects().get(x));
-					break;
-				}
-			}
+			field.getObjects().remove(this);
 		}
 		else if (game.getLevel().getObjectsOf(Shell.class).size() == 0) {
 			Point direction = getDirectionOfShell(game);
@@ -82,13 +77,4 @@ public class WallWithTrap implements FieldObject {
 		}
 		decreaseLifeTime();
 	}
-
-	public void generate(Game game) {
-		ArrayList<FieldObject> walls = game.getLevel().getObjectsOf(Wall.class);
-		Random rnd = new Random();
-		int id = rnd.nextInt(walls.size());
-		Point cellLocation = walls.get(id).getLocation();
-		game.getField().getObjects().add(new WallWithTrap(cellLocation.x, cellLocation.y, 0));
-	}
-
 }

@@ -6,11 +6,8 @@ import java.util.ArrayList;
 import java.util.Random;
 import java.util.Set;
 
-import fieldObjects.AcceleratorBonus;
-import fieldObjects.FieldObject;
-import fieldObjects.ResetAcceleratorBonus;
-import fieldObjects.Wall;
-import fieldObjects.WallWithTrap;
+import fieldObjects.*;
+import game.AppleGenerator;
 import game.Field;
 import utils.Consts;
 
@@ -39,7 +36,7 @@ public class Level1 extends Level {
 		int wallID = rnd.nextInt(walls.size());
 		utils.Point cellLocation = emptyCells.get(cellID).getLocation();
 		utils.Point wallLocation = walls.get(wallID).getLocation();
-		int bonusID = rnd.nextInt(3);
+		int bonusID = rnd.nextInt(4);
 		if (bonusChance > chance) {
 			if (bonusID == 0 && getObjectsOf(AcceleratorBonus.class).size() == 0) {
 				field.getObjects().add(new AcceleratorBonus(cellLocation.x, cellLocation.y, 10, 0));
@@ -50,6 +47,12 @@ public class Level1 extends Level {
 			else if (bonusID == 2 && getObjectsOf(WallWithTrap.class).size() == 0) {
 				field.getObjects().add(new WallWithTrap(wallLocation.x, wallLocation.y, 0));
 			}
+			else if (bonusID == 3 && getObjectsOf(MovingApple.class).size() == 0) {
+				field.getObjects().add(new MovingApple(cellLocation.x, cellLocation.y, 30));
+			}
 		}
+		if (getObjectsOf(Apple.class).size() == 0)
+			AppleGenerator.addApple(this);
+
 	}
 }

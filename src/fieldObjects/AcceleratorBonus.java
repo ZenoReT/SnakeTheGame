@@ -1,8 +1,5 @@
 package fieldObjects;
 
-import java.util.ArrayList;
-import java.util.Random;
-
 import game.Field;
 import game.Game;
 import utils.Point;
@@ -42,7 +39,7 @@ public class AcceleratorBonus implements FieldObject {
 		lifeTime--;
 	}
 	
-	public void treatCollision(Game game) {
+	public void treatCollisionWithSnake(Game game) {
 		Field field = game.getField();
 		SnakeHead snakeHead = game.findSnakeHead(); 
 		Point headLocation = snakeHead.getLocation();
@@ -56,22 +53,9 @@ public class AcceleratorBonus implements FieldObject {
 
 	public void tick(Game game) {
 		decreaseLifeTime();
-		if (lifeTime <= 0){
+		if (lifeTime <= 0) {
 			Field field = game.getField();
-			for (int x = 0; x < field.getObjects().size(); x++) {
-				if (field.getObjects().get(x).getClass() == this.getClass()) {
-					field.getObjects().remove(field.getObjects().get(x));
-					break;
-				}
-			}
+			field.getObjects().remove(this);
 		}
-	}
-	
-	public void generate(Game game){
-		ArrayList<FieldObject> emptyCells = game.getLevel().getEmptyCells();
-		Random rnd = new Random();
-		int id = rnd.nextInt(emptyCells.size());
-		Point cellLocation = emptyCells.get(id).getLocation();
-		game.getField().getObjects().add(new AcceleratorBonus(cellLocation.x, cellLocation.y, 0, 0));
 	}
 }

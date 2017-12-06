@@ -21,9 +21,7 @@ public class EmptyCell implements FieldObject {
 		return location;
 	}
 	
-	public void treatCollision(Game game) {}
+	public void treatCollisionWithSnake(Game game) {}
 	
 	public void tick(Game game) {}
-	
-	public void generate(Game game){}
 }

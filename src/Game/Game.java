@@ -20,8 +20,8 @@ public class Game {
 		field = level.getField();
 		this.level = level;
 	}
-	
-	public Field getField() {
+
+    public Field getField() {
 		return field;
 	}
 	
@@ -43,7 +43,7 @@ public class Game {
 		Point headLocation = snakeHead.getLocation();
 		FieldObject currentCell = field.getField()[headLocation.x][headLocation.y];
 		
-		currentCell.treatCollision(this);
+		currentCell.treatCollisionWithSnake(this);
 		runObjectsTicks();
 		level.runRules();
 		
@@ -59,10 +59,9 @@ public class Game {
 	}
 
 	public SnakeHead findSnakeHead() {
-		Object classOfHead = SnakeHead.class;
 		SnakeHead snakeHead = null;
 		for (int i = 0; i < field.getObjects().size(); i++) {
-			if (field.getObjects().get(i).getClass() == classOfHead) {
+			if (field.getObjects().get(i) instanceof SnakeHead) {
 				snakeHead = (SnakeHead)field.getObjects().get(i);
 				break;
 			}
@@ -85,10 +84,9 @@ public class Game {
 		if (snakeHead.getPreviousPart() != null)
 		{
 			SnakePart currentPart = snakeHead.getPreviousPart();
-			Point nextCoordinate = new Point(snakeHead.getLocation().x,
-											 snakeHead.getLocation().y);
+			Point nextCoordinate = new Point(snakeHead.getLocation());
 			while (true) {
-				Point temp = new Point(currentPart.getLocation().x, currentPart.getLocation().y);
+				Point temp = new Point(currentPart.getLocation());
 				currentPart.setLocation(nextCoordinate.x, nextCoordinate.y);
 				currentPart = currentPart.getPreviousPart();
 				if (currentPart == null) {

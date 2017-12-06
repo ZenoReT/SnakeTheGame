@@ -29,13 +29,11 @@ public class SnakePart implements FieldObject {
 		return previousPart;
 	}
 	
-	public void treatCollision(Game game) {
+	public void treatCollisionWithSnake(Game game) {
 		if (getPreviousPart() != null) {
 			game.gameOver = true;
 		}
 	}
 	
 	public void tick(Game game) {}
-	
-	public void generate(Game game) {}
 }
