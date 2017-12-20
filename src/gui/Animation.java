@@ -11,13 +11,13 @@ import javax.imageio.ImageIO;
 
 
 public class Animation {
-	private static HashMap<File,ArrayList<Image>> uploadedImages = 
-			new HashMap<File,ArrayList<Image>>();
-	 private ArrayList<Image> images;
+	private static HashMap<File, HashMap<String, ArrayList<Image>>> uploadedImages = 
+			new HashMap<>();
+	 private HashMap<String, ArrayList<Image>> images;
 	 private int ip;
 	 private int frequency;
 	 private int tickCount;
-	 
+	 private String currentAnimation = "1";
 	 
 	 private static Image errorImage = null;
 	 
@@ -25,12 +25,12 @@ public class Animation {
 	 public Animation(File folder, int frequency) {
 		 if (errorImage == null) {
 			 try {
-				 errorImage = ImageIO.read(new File("Animations\\ifNotFound\\1.png"));
+				 errorImage = ImageIO.read(new File("animations\\IfNotFound\\1.png"));
 			 }
 			 catch (IOException e) {};
 		 }
 		 
-		 images = new ArrayList<Image>();
+		 images = new HashMap<>();
 		 ip = 0;
 		 tickCount = 0;
 		 if (frequency <= 0) {
@@ -42,16 +42,24 @@ public class Animation {
 		 if (Animation.uploadedImages.containsKey(folder))
 			 this.images = Animation.uploadedImages.get(folder);
 		 else {
-			 this.images = new ArrayList<Image>();
+			 this.images = new HashMap<>();
 			 File[] pics = folder.listFiles();
 			 if (pics == null || pics.length == 0) {
-				 images.add(errorImage);
+				 images.put("Error", new ArrayList<Image>());
+				 images.get("Error").add(errorImage);
 				 return;
 			 }
 			 for (File pic : pics) {
 			 		try {
+			 			String[] parsedPath = pic.getCanonicalPath().split("\\\\");
+			 			String fileName = parsedPath[parsedPath.length - 1];
+			 			String[] parsed = fileName.split("\\.");
 						Image img = ImageIO.read(pic);
-						this.images.add(img);
+						//this.images.add(img);
+						if (!images.containsKey(parsed[0])) {
+							images.put(parsed[0], new ArrayList<Image>());
+						}
+						images.get(parsed[0]).add(img);
 					} catch (IOException e) {
 						e.printStackTrace();
 					}
@@ -69,7 +77,7 @@ public class Animation {
 		 }
 		 tickCount++;
 		 if (tickCount%frequency == 0){
-			 ip = (ip+1)%images.size();
+			 ip = (ip+1)%images.get(currentAnimation).size();
 			 tickCount = 1;
 		 }
 	 }
@@ -79,7 +87,16 @@ public class Animation {
 		 {
 			 return errorImage;
 		 }
-		 return images.get(this.ip);
+		 return images.get(currentAnimation).get(ip);
 	 }
-
+	 
+	 public HashMap<String, ArrayList<Image>> getImagesFromFolder(File folder){
+		 return uploadedImages.get(folder);
+	 }
+	 
+	 public void changeCurrentAnimation(String skinName) {
+		if (images.containsKey(skinName)) {
+			currentAnimation = skinName;
+		}
+	 }
 }

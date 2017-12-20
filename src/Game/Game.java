@@ -12,7 +12,7 @@ import utils.Consts;
 public class Game {
 	public boolean gameOver = false;
 	private Field field;
-	private int speed = 500;
+	private int speed = 2500;
 	public Consts consts = new Consts();
 	Level level;
 			
@@ -97,5 +97,32 @@ public class Game {
 		}
 		snakeHead.setLocation(snakeHead.getLocation().x + snakeHead.getDirection().x,
 						      snakeHead.getLocation().y + snakeHead.getDirection().y);
+	}
+
+	public static boolean equalsDirection(Point firstDirection, Point secondDirection) {
+		return firstDirection.equals(secondDirection);
+	}
+
+	public static boolean canChangeDirection(SnakeHead snakeHead, Point newDirection) {
+		if (snakeHead.getPreviousPart() == null || !equalsDirection(
+				snakeHead.getPreviousPart().getLocation().sub(snakeHead.getLocation()),
+						  newDirection))
+			return true;
+		return false;
+	}
+
+	public static void changeDirection(String command, SnakeHead snakeHead) {
+		if (command.equals("d") && canChangeDirection(snakeHead, new Point(1, 0))) {
+			snakeHead.setDirection(new Point(1, 0));
+		}
+		else if (command.equals("w") && canChangeDirection(snakeHead, new Point(0, -1))) {
+			snakeHead.setDirection(new Point(0, -1));
+		}
+		else if (command.equals("a") && canChangeDirection(snakeHead, new Point(-1, 0))) {
+			snakeHead.setDirection(new Point(-1, 0));
+		}
+		else if (command.equals("s") && canChangeDirection(snakeHead, new Point(0, 1))) {
+			snakeHead.setDirection(new Point(0, 1));
+		}
 	}
 }
